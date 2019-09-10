@@ -1,0 +1,94 @@
+<div th:fragment="html" xmlns:th="http://www.w3.org/1999/xhtml">
+    <script>
+
+        $(function(){
+
+            var data4Vue = {
+                uri:'home',
+                categories: [],
+                pagination:{},
+                articles: [],
+                all_article_count:0,
+                all_view_count:0,
+                showTitle:true,
+                showCategories:false,
+                rand_article:''
+            };
+            //ViewModel
+            var vue = new Vue({
+                el: '#workingArea',
+                data: data4Vue,
+                mounted:function(){ //mounted　表示这个 Vue 对象加载成功了
+                    linkDefaultActions();
+                    this.load();
+                    this.listArticles(0);
+                    this.getCount();
+                },
+                methods: {
+                    load:function(){
+                        var url =  "fore_category_list";
+                        axios.get(url).then(function(response) {
+                            vue.categories = response.data;
+                        });
+
+                        // url = "fore_rand_article";
+                        // axios.get(url).then(function(response) {
+                        //     vue.rand_article= response.data;
+                        // });
+                    },
+                    listArticles:function(start){
+                        var url =  "articles_all?start="+start;
+                        axios.get(url).then(function(response) {
+                            vue.pagination = response.data;
+                            vue.articles = response.data.content;
+                        });
+                    },
+                    jump: function(page){
+
+                        jump(page,vue); //定义在
+                        // Header.html 中
+                    },
+                    jumpByNumber: function(start){
+                        jumpByNumber(start,vue);
+                    },
+                    getCount:function () {
+                        var url = "all_article_count";
+                        axios.get(url).then(function(response) {
+                            vue.all_article_count= response.data;
+                        });
+                        url = "all_view_count";
+                        axios.get(url).then(function(response) {
+                            vue.all_view_count= response.data;
+                        });
+
+                    },
+                    toggle2Title:function(){
+                        this.showTitle=true;
+                        this.showCategories=false;
+                    },
+                    toggle2Categories:function(){
+                        this.showTitle=false;
+                        this.showCategories=true;
+                    },
+
+
+                },
+                filters:{
+                    subTitleFilter:function(value) {
+                        if (!value) return ''; //如果为空，则返回空字符串
+                        return value.split(" ")[0]; //根据空格拆分，并且只获取数组第一个值
+                    }
+                }
+            });
+
+
+        });
+
+    </script>
+
+
+</div>
+
+
+
+

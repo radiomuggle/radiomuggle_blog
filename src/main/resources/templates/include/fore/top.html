@@ -1,0 +1,54 @@
+
+<!-- MENU TAB -->
+<div id="main-wrapper-menu" th:fragment="html" xmlns:th="http://www.w3.org/1999/xhtml"
+     xmlns:th="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml"
+     xmlns:th="http://www.w3.org/1999/xhtml">
+    <div id="wrapper-cross"></div>
+    <div id="wrapper-menu">
+
+        <div class="recent-post text-part-menutab">
+            <ul>
+                <li><div id="recent-post-1"><a href="home">首页</a></div></li>
+                <li><div id="recent-post-2"><a href="article_all">所有文章</a></div></li>
+            </ul>
+        </div>
+
+        <div class="category-post text-part-menutab">
+            <div id="line-category-post"></div>
+            <ul>
+<!--                <li><div id="category-post-1"><a :href="'fore_article?aid='+rand_article.id" :title="rand_article.name">随机文章页</a></div></li>-->
+<!--                <li><div id="category-post-2"><a href="home">写评论</a></div></li>-->
+            </ul>
+        </div>
+
+    </div>
+</div>
+
+<!-- BOUTON MENU TAB -->
+
+<div id="wrapper-plus" class="object" th:fragment="html" xmlns:th="http://www.w3.org/1999/xhtml"
+     xmlns:th="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml"
+     xmlns:th="http://www.w3.org/1999/xhtml"></div>
+
+<script th:fragment="html" xmlns:th="http://www.w3.org/1999/xhtml"
+        xmlns:th="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml"
+        xmlns:th="http://www.w3.org/1999/xhtml">
+    var SS = document.getElementById('wrapper-plus');
+
+    SS.addEventListener('click', function() {
+        $("#main-wrapper-menu").animate({'height':'100%'},500);
+        $(".recent-post").delay(500).fadeIn(500);
+        $(".category-post").delay(500).fadeIn(500);
+        $("#wrapper-plus").fadeOut(250);
+    });
+
+    var WC = document.getElementById('wrapper-cross');
+
+    WC.addEventListener('click', function() {
+        $("#main-wrapper-menu").animate({'height':'0'},500);
+        $(".recent-post").fadeOut(250);
+        $(".category-post").fadeOut(250);
+        $("#wrapper-plus").delay(1000).fadeIn(250);
+    });
+
+</script>

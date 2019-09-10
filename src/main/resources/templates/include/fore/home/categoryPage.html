@@ -1,0 +1,114 @@
+<div th:fragment="html" xmlns:th="http://www.w3.org/1999/xhtml">
+    <script>
+
+        $(function(){
+            var cid = getUrlParms("cid");
+            var sort = getUrlParms("sort");
+            var data4Vue = {
+                uri:'fore_category',
+                categories: [],
+                category:'',
+                // category:{id: 0, name: '全部分类'},
+                pagination:{},
+                articles: [],
+                all_article_count:0,
+                all_view_count:0,
+                showTitle:true,
+                showCategories:false,
+                rand_article:'',
+                sort:''
+
+            };
+            //ViewModel
+            var vue = new Vue({
+                el: '#workingArea',
+                data: data4Vue,
+                mounted:function(){ //mounted　表示这个 Vue 对象加载成功了
+                    linkDefaultActions();
+                    this.getCategory(cid);
+                    this.load();
+                    this.listArticles(0);
+                    this.getCount();
+                },
+                methods: {
+                    load:function(){
+                        var url =  "fore_category_list";
+                        axios.get(url).then(function(response) {
+                            vue.categories = response.data;
+                            // console.log(vue.categories);
+                        });
+                        // console.log("sort= "+vue.sort);
+
+                        // url = "fore_rand_article";
+                        // axios.get(url).then(function(response) {
+                        //     vue.rand_article= response.data;
+                        //     console.log(vue.rand_article);
+                        // });
+                    },
+                    getCategory:function(cid){
+                        // var url = this.uri+"/"+cid;
+
+                        var url = this.uri+"/"+cid+"?sort="+sort;
+                        axios.get(url).then(function(response) {
+                            vue.category = response.data;
+                            console.log(vue.category);
+                            vue.all_article_count=vue.category.articleCount;
+                            console.log(sort);
+                            vue.sort = sort;
+                            console.log("vue.sort: "+vue.sort);
+                        })
+                    },
+                    listArticles:function(start){
+
+                        var url =  "categories/"+cid+"/articles?start="+start;
+                        // var url =  "categories/"+cid+"/articles?start="+start+"&sort="+sort;
+                        console.log(url);
+                        axios.get(url).then(function(response) {
+                            vue.pagination = response.data;
+                            vue.articles = response.data.content;
+                            console.log(vue.articles);
+                        });
+
+                    },
+                    jump: function(page){
+
+                        jump(page,vue); //定义在adminHeader.html 中
+                    },
+                    jumpByNumber: function(start){
+                        jumpByNumber(start,vue);
+                    },
+                    getCount:function () {
+                        var url = "all_view_count";
+                        axios.get(url).then(function(response) {
+                            vue.all_view_count= response.data;
+                        });
+                    },
+                    toggle2Title:function(){
+                        this.showTitle=true;
+                        this.showCategories=false;
+                    },
+                    toggle2Categories:function(){
+                        this.showTitle=false;
+                        this.showCategories=true;
+                    },
+                },
+
+                filters:{
+                    subTitleFilter:function(value) {
+                        if (!value) return ''; //如果为空，则返回空字符串
+                        return value.split(" ")[0]; //根据空格拆分，并且只获取数组第一个值
+                    }
+                }
+            });
+
+
+        });
+
+    </script>
+
+
+</div>
+
+
+
+

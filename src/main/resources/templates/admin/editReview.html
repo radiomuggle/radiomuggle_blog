@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="include/admin/adminHeader::html('文章管理')" ></head>
+
+<body>
+<!-- WRAPPER -->
+<div id="wrapper">
+    <!-- LEFT SIDEBAR -->
+    <div id="sidebar-nav" class="sidebar">
+        <div class="sidebar-scroll">
+            <nav>
+                <ul class="nav">
+                    <li><a href="admin_index" class=""><i class="lnr lnr-home"></i> <span>首页</span></a></li>
+                    <li><a href="admin_article_list" class="active"><i class="lnr lnr-pencil"></i> <span>文章管理</span></a></li>
+                    <li><a href="admin_category_list" class=""><i class="lnr lnr-inbox"></i> <span>分类管理</span></a></li>
+                    <li><a href="admin_pageview_list" class=""><i class="lnr lnr-users"></i> <span>访问管理</span></a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <!-- END LEFT SIDEBAR -->
+    <script>
+        $(function(){
+            var aid = getUrlParms("aid");
+            var data4Vue = {
+                uri:'reviews',
+                listURL:'admin_review_edit',
+                beans: [],
+                bean: {id: 0, content: '','email':'','name':'','ip':'','is_effective':0,article:{'id':0}},
+                pagination:{},
+                article:'',
+            };
+
+            //ViewModel
+            var vue = new Vue({
+                el: '#workingArea',
+                data: data4Vue,
+                mounted: function () { //mounted　表示这个 Vue 对象加载成功了
+                    this.getArticle(aid);
+                    this.list(0);
+                },
+                methods: {
+                    getArticle:function(aid){
+                        var url = "articles/"+aid;
+                        axios.get(url).then(function(response) {
+                            vue.article = response.data;
+                        })
+                    },
+                    list:function(start){
+                        var url =  "articles/"+aid+"/"+this.uri+"?start="+start;
+                        axios.get(url).then(function(response) {
+                            vue.pagination = response.data;
+                            vue.beans = response.data.content;
+                        });
+                    },
+                    // get: function (id) {
+                    //     var url = this.uri+"/"+id;
+                    //     axios.get(url).then(function(response) {
+                    //         vue.bean = response.data;
+                    //         // console.log(vue.bean);
+                    //     })
+                    //     console.log(vue.bean);
+                    // },
+                    update: function (id,is_effective) {
+                        var url = this.uri;
+                        this.bean.id = id;
+                        if(is_effective== 0)
+                            this.bean.is_effective = 1;
+                        else
+                            this.bean.is_effective = 0;
+
+                        console.log(this.bean);
+                        axios.put(url,vue.bean).then(function(response){
+                            location.href=vue.listURL+"?aid="+aid;
+                        });
+                    },
+                    // add: function () {
+                    //     if(!checkEmpty(this.bean.name, "文章名称"))
+                    //         return;
+                    //     if (!checkNumber(this.bean.summary, "概述"))
+                    //         return;
+                    //     if (!checkNumber(this.bean.isTop, "是否置顶"))
+                    //         return;
+                    //     if (!checkInt(this.bean.traffic, "浏览量"))
+                    //         return;
+                    //     // if (!checkInt(this.bean.category.id, "浏览量"))
+                    //     // 	return;
+                    //     var url = this.uri;
+                    //     axios.post(url,this.bean).then(function(response){
+                    //         vue.list(0);
+                    //         vue.bean =  {id: 0, name: '', 'summary':'','isTop':0,'traffic':0,category:{'id':0}};
+                    //     });
+                    // },
+                    // deleteBean: function (id) {
+                    //     if(!checkDeleteLink())
+                    //         return;
+                    //     var url = this.uri+"/"+id;
+                    //     axios.delete(url).then(function(response){
+                    //         if(0!=response.data.length)
+                    //             alert(response.data);
+                    //         else
+                    //             vue.list(0);
+                    //     });
+                    // },
+                    jump: function(page){
+                        jump(page,vue); //定义在adminHeader.html 中
+                    },
+                    jumpByNumber: function(start){
+                        jumpByNumber(start,vue);
+                    }
+                }
+            });
+            Vue.filter('formatDateFilter', function (value, formatString) {
+                if(null==value)
+                    return "";
+                formatString = formatString || 'YYYY-MM-DD HH:mm:ss';
+                return moment(value).format(formatString);
+            });
+        });
+
+    </script>
+    <!-- MAIN -->
+
+    <div class="main" id="workingArea">
+        <!-- MAIN CONTENT -->
+        <div class="main-content">
+            <div class="container-fluid">
+                <h3 class="page-title">文章评论管理</h3>
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- TABLE HOVER -->
+                        <div class="panel">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">评论列表</h3>
+                            </div>
+                            <div class="panel-body">
+                                <table class="table table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>内容</th>
+                                        <th>评论时间</th>
+                                        <th>email</th>
+                                        <th>姓名</th>
+                                        <th>ip</th>
+                                        <th>是否生效</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr v-for="bean in beans ">
+<!--                                        <td v-model="bean.id">{{bean.id}}</td>-->
+                                        <td v-model="bean.id">{{bean.id}}</td>
+                                        <td>{{bean.content}}</td>
+                                        <td>{{bean.create_time | formatDateFilter}}</td>
+                                        <td>{{bean.email}}</td>
+                                        <td>{{bean.name}}</td>
+                                        <td>{{bean.ip}}</td>
+                                        <td>
+<!--                                            <input @click="update" type="text" v-model="bean.id" v-show="invisible">-->
+<!--                                            <input @click="get(bean.id);update()" type="checkbox" id="checkbox" v-model="bean.is_effective">-->
+                                            <input @click="update(bean.id,bean.is_effective)" type="checkbox" id="checkbox" v-model="bean.is_effective">
+<!--                                            <label for="checkbox" onchange="if(this.checked){this.value=1}else{this.value=0}">{{ bean.is_effective }}</label>-->
+                                            <label for="checkbox">{{ bean.is_effective }}</label>
+                                        </td>
+<!--                                        <td>{{bean.is_effective}}</td>-->
+
+<!--                                        <td>-->
+<!--                                            <a :href="'admin_article_edit?id=' + bean.id "><span class="glyphicon glyphicon-edit"></span></a>-->
+<!--                                        </td>-->
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- END TABLE HOVER -->
+                    </div>
+                </div>
+                <div th:replace="include/admin/adminPage::html" ></div>
+
+
+            </div>
+
+        </div>
+        <!-- END MAIN CONTENT -->
+    </div>
+
+    <!-- END MAIN -->
+    <!--		<div class="clearfix"></div>-->
+</div>
+<!-- END WRAPPER -->
+</body>
+
+</html>

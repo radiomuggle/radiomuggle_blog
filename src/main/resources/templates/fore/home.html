@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" >
+<head th:include="include/fore/header::html('博客首页')" ></head>
+
+<body>
+<!--<div id="workingArea">-->
+<link href="css/fore/CSS/main.css" rel="stylesheet" />
+<!--<script type="text/javascript" src="css/fore/JS/main.js"></script>-->
+<script src="css/fore/JS/main.js"></script>
+<script type='application/javascript'>
+	window.addEventListener('load', function() {
+		new FastClick(document.body);
+	}, false);
+</script>
+<div th:replace="include/fore/top::html" ></div>
+	<div th:replace="include/fore/home/homePage::html" ></div>
+<!-- HEADER -->
+
+<div id="A1-main">
+	    
+    <div id="wrapper-logo" class="object">
+	<a href="#"><div id="logo" class="shadow object" ><img src="img/fore/logotop.svg" width="169" height="45"/></div></a>
+	</div>
+    
+    <div id="A1">
+    
+    	<div class="blank"></div>
+    
+    	<div id="A0"></div>
+    	<div id="A0-2"></div>
+<!--    	<div id="trame"></div>-->
+        
+		
+    	<div id="wrapper-head">
+   			<div id="title" class="object">不知道写什么</div>
+            <div id="wrapper-learnmore">
+            	<div class="bouton-learnmore object">
+        			<div class="text-learnmore object" onclick="location.href='home#A2'">看看文章</a></div>
+    			</div>
+            </div>
+   	    </div>
+
+
+<!--		<div id="wrapper-plus" class="object"></div>-->
+        
+	</div>
+        
+</div>
+
+<div id="workingArea">
+
+<!-- PART 2 - TITLE -->
+
+<div id="A2">
+
+	<div id="text-2" class="wow fadeIn" data-wow-offset="10">近期文章</div>
+    
+</div>
+    
+<!-- PART 3 - PORTFOLIO ARTICLES 3 GRID -->
+
+<div id="wrapper-A3" class="object">
+<!--	v-if="index<8"-->
+    	<div id="A3-left" v-for="a,index in articles ">
+        
+            
+            <div id="wrapper-post2" class="text-part-A5">
+            	<a :href="'fore_article?aid='+a.id"><div id="A3-left-image-2"><img :src="'img/articleSingle_middle/'+a.firstArticleImg.id+'.jpg'"  alt="post an image with animation" :title="a.name" class="grow"/></div></a>
+            
+            	<div id="wrapper-A3-left-date-2">
+            		<div id="A3-left-date-2">{{a.create_time |formatDateFilter('YYYY-MM-DD')}}</div>
+            	</div> 
+           		<ul>
+            		<li><div id="A3-left-title-2"><a :href="'fore_article?aid='+a.id">{{a.name}}</a></div></li>
+            	</ul>
+            	<div id="A3-left-text-2">{{a.summary}}</div>
+            </div>
+            
+<!--             <div id="wrapper-post3" class="text-part-A5">-->
+<!--            	<a href="spore-post3.html"><div id="A3-left-image-3"><img src="img/fore/image6-01.jpg"  alt="Auto-resized image" title="Auto-resized image" class="grow"/></div></a>-->
+<!--            -->
+<!--            	<div id="wrapper-A3-left-date-3">-->
+<!--            		<div id="A3-left-date-3">20 nov, 2016</div>-->
+<!--                	&lt;!&ndash; <div id="A3-left-icone-3"></div> &ndash;&gt;-->
+<!--            	</div> -->
+<!--            	<ul>-->
+<!--            		<li><div id="A3-left-title-3"><a href="spore-post3.html">Auto-resized image</a></div></li>-->
+<!--                </ul>  -->
+<!--            	<div id="A3-left-text-3">啦啦啦啦啦啦啦啦啦啦啦</div>  -->
+<!--            </div>-->
+            
+        </div>
+  
+<!--    	<div id="A3-middle">-->
+<!--        	-->
+<!--            <div id="wrapper-post4" class="text-part-A5">-->
+<!--            	<a href="spore-post4.html"><div id="A3-middle-image-4"><img src="img/fore/image3-01.jpg"  alt="Another post" title="Another post" class="grow"/></div></a>-->
+<!--            -->
+<!--            	<div id="wrapper-A3-middle-date-4">-->
+<!--            		<div id="A3-middle-date-4">19 nov, 2016</div>-->
+<!--            	</div> -->
+<!--            	<ul>-->
+<!--            		<li><div id="A3-middle-title-4"><a href="spore-post4.html">Another post</a></div></li>-->
+<!--                </ul>  -->
+<!--            	<div id="A3-middle-text-4">啦啦啦啦啦啦啦啦啦啦啦</div>  -->
+<!--            </div>-->
+<!--            -->
+<!--            <div id="wrapper-post5" class="text-part-A5">-->
+<!--            	<a href="spore-post5.html"><div id="A3-middle-image-5"><img src="img/fore/image4-01.jpg"  alt="Another post" title="Another post" class="grayscale" /></div></a>-->
+<!--            -->
+<!--            	<div id="wrapper-A3-middle-date-5">-->
+<!--            		<div id="A3-middle-date-5">18 nov, 2016</div>-->
+<!--            	</div> -->
+<!--            	<ul>-->
+<!--            		<li><div id="A3-middle-title-5"><a href="spore-post5.html">Post transition image</a></div></li>-->
+<!--                </ul> -->
+<!--            	<div id="A3-middle-text-5">啦啦啦啦啦啦啦啦啦啦啦</div>  -->
+<!--            </div>-->
+<!--            -->
+<!--        -->
+<!--        -->
+<!--        </div>-->
+        
+<!--        <div id="A3-right">-->
+<!--        -->
+<!--        	    -->
+<!--            -->
+<!--            <div id="wrapper-post8" class="text-part-A5">-->
+<!--            	<a href="spore-post8.html"><div id="A3-right-image-8"><img src="img/fore/image5-01.jpg"  alt="Post with transition image" title="Post with transition image" class="grow" /></div></a>-->
+<!--            -->
+<!--            	<div id="wrapper-A3-right-date-8">-->
+<!--            		<div id="A3-right-date-8">15 nov, 2016</div>-->
+<!--            	</div> -->
+<!--            	<ul>-->
+<!--            		<li><div id="A3-right-title-8"><a href="spore-post8.html">Another post</a></div></li>-->
+<!--                </ul>  -->
+<!--            	<div id="A3-right-text-8">啦啦啦啦啦啦啦啦啦啦啦</div>  -->
+<!--            </div>-->
+<!--            -->
+<!--            <div id="wrapper-post9" class="text-part-A5">-->
+<!--            	<a href="spore-post9.html"><div id="A3-right-image-9"><img src="img/fore/image2-01.jpg"  alt="Another post" title="Another post" class="grow"/></div></a>-->
+<!--            -->
+<!--            	<div id="wrapper-A3-right-date-9">-->
+<!--            		<div id="A3-right-date-9">14 nov, 2016</div>-->
+<!--            	</div> -->
+<!--            	<ul>-->
+<!--            		<li><div id="A3-right-title-9"><a href="spore-post9.html">Another post</a></div></li>-->
+<!--                </ul>-->
+<!--            	<div id="A3-right-text-9">啦啦啦啦啦啦啦啦啦啦啦</div>  -->
+<!--            </div>-->
+<!--        -->
+<!--        </div>-->
+	<div class="calage"></div>     
+</div>
+
+
+
+<div th:replace="include/fore/footer::html" ></div>
+</div>
+
+</body>
+</html>

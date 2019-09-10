@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="include/admin/adminHeader::html('访问管理')" ></head>
+
+<body>
+<!-- WRAPPER -->
+<div id="wrapper">
+    <!-- LEFT SIDEBAR -->
+    <div id="sidebar-nav" class="sidebar">
+        <div class="sidebar-scroll">
+            <nav>
+                <ul class="nav">
+                    <li><a href="admin_index" class=""><i class="lnr lnr-home"></i> <span>首页</span></a></li>
+                    <li><a href="admin_article_list" class=""><i class="lnr lnr-pencil"></i> <span>文章管理</span></a></li>
+                    <li><a href="admin_category_list" class=""><i class="lnr lnr-inbox"></i> <span>分类管理</span></a></li>
+                    <li><a href="admin_pageview_list" class="active"><i class="lnr lnr-users"></i> <span>访问管理</span></a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <!-- END LEFT SIDEBAR -->
+    <script>
+        $(function(){
+            // var aid = getUrlParms("aid");
+            var data4Vue = {
+                uri:'pageviews',
+                beans: [],
+                bean: '',
+                pagination:{},
+                article:''
+            };
+
+            //ViewModel
+            var vue = new Vue({
+                el: '#workingArea',
+                data: data4Vue,
+                mounted:function(){ //mounted　表示这个 Vue 对象加载成功了
+                    this.list(0);
+                },
+                methods: {
+                    list:function(start){
+                        var url =  this.uri+ "?start="+start;
+                        axios.get(url).then(function(response) {
+                            vue.pagination = response.data;
+                            vue.beans = response.data.content;
+                            // console.log(vue.beans);
+                        });
+                    },
+                    deleteBean: function (id) {
+                        if(!checkDeleteLink())
+                            return;
+                        var url = this.uri+"/"+id;
+                        axios.delete(url).then(function(response){
+                            if(0!=response.data.length)
+                                alert(response.data);
+                            else
+                                vue.list(0);
+                        });
+                    },
+                    jump: function(page){
+                        jump(page,vue); //定义在adminHeader.html 中
+                    },
+                    jumpByNumber: function(start){
+                        jumpByNumber(start,vue);
+                    }
+                }
+            });
+        });
+
+    </script>
+    <!-- MAIN -->
+
+    <div class="main" id="workingArea">
+        <!-- MAIN CONTENT -->
+        <div class="main-content">
+            <div class="container-fluid">
+                <h3 class="page-title">访问管理</h3>
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- TABLE HOVER -->
+                        <div class="panel">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">访问记录</h3>
+                            </div>
+                            <div class="panel-body">
+                                <table class="table table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>时间</th>
+                                        <th>ip</th>
+                                        <th>url</th>
+<!--                                        <th>aid</th>-->
+                                        <th>删除</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr v-for="bean in beans ">
+                                        <td>{{bean.id}}</td>
+                                        <td>{{bean.create_time |formatDateFilter('YYYY-MM-DD HH:mm:ss')}}</td>
+                                        <td>{{bean.ip}}</td>
+                                        <td>{{bean.url}}</td>
+
+                                        <td>
+                                            <a href="#nowhere"  @click="deleteBean(bean.id)"><span class="   glyphicon glyphicon-trash"></span></a>
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- END TABLE HOVER -->
+                    </div>
+                </div>
+                <div th:replace="include/admin/adminPage::html" ></div>
+
+
+            </div>
+
+        </div>
+        <!-- END MAIN CONTENT -->
+    </div>
+
+    <!-- END MAIN -->
+    <!--		<div class="clearfix"></div>-->
+</div>
+<!-- END WRAPPER -->
+</body>
+
+</html>

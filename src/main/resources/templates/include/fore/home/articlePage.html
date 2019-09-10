@@ -1,0 +1,148 @@
+<div th:fragment="html" xmlns:th="http://www.w3.org/1999/xhtml">
+    <script>
+
+        $(function(){
+            var aid = getUrlParms("aid");
+            var data4Vue = {
+                uri:'fore_article',
+                article:'',
+                review:{id:0,name:'','content':'','email':'','ip':'','is_effective':1,article:{'id':0}},
+                showWrite:false,
+                showReviews:true,
+                showCreate_time:true,
+                showModify_time:false,
+                all_article_count:0,
+                all_view_count:0,
+
+                next_article:'',
+                pre_article:'',
+                rand_article:'',
+
+                inputImageCode:'',
+                // ImageCode:'',
+                codeUrl:'defaultKaptcha',
+                ImageCode:false
+
+            };
+            //ViewModel
+            var vue = new Vue({
+                el: '#workingArea',
+                data: data4Vue,
+                mounted:function(){ //mounted　表示这个 Vue 对象加载成功了
+                    linkDefaultActions();
+                    this.getCount();
+                    this.getArticle(aid);
+                    this.getNextAndPre(aid);
+                    // this.setPageview;
+                },
+                methods: {
+                    getArticle:function(aid){
+
+                        var url = this.uri+"/"+aid;
+                        axios.get(url).then(function(response) {
+                            vue.article = response.data;
+                            vue.all_view_count = vue.article.viewCount;
+                        })
+                    },
+                    getImageCode:function(){
+                        vue.codeUrl = "defaultKaptcha?d="+new Date()*1;
+                        axios.get(vue.codeUrl).then(function(response) {
+                        })
+                    },
+                    add: function () {
+                        if(!checkisEmpty(this.review.name, "名称"))
+                            return;
+                        if(!checkisEmpty(this.review.email, "邮箱地址"))
+                            return;
+                        if(!checkisEmpty(this.review.content, "内容"))
+                            return;
+                        this.review.article.id=aid;
+                        console.log(this.review);
+                        var url = "verifyCode";
+                            axios.post(url,this.review).then(function(response){
+                                var result = response.data;
+                                if(result.code==0){
+                                    location.href="fore_article?aid="+aid;
+                                } else {
+                                    alert("验证码错误");
+                                    vue.codeUrl = "defaultKaptcha?d="+new Date()*1;
+                                }
+                            });
+
+                        // console.log("add方法");
+                        // url = "reviews";
+                        // this.review.article.id=aid;
+                        // axios.post(url,this.review).then(function(response){
+                        //     location.href="fore_article?aid="+aid;
+                        //     vue.review =  {id:0,name:'','content':'','email':'','ip':'','is_effective':0,article:{'id':0}}
+                        // });
+                    },
+                    toggle2Write:function(){
+                        this.showWrite=true;
+                        this.showReviews=false;
+                    },
+                    toggle2Reviews:function(){
+                        this.showWrite=false;
+                        this.showReviews=true;
+                    },
+                    toggle2Create:function(){
+                        this.showCreate_time=true;
+                        this.showModify_time=false;
+                    },
+                    toggle2Modify:function(){
+                        this.showCreate_time=false;
+                        this.showModify_time=true;
+                    },
+                    showImageCode:function(){
+                        this.ImageCode=true;
+                    },
+
+                    getCount:function() {
+                        var url = "all_article_count";
+                        axios.get(url).then(function(response) {
+                            vue.all_article_count= response.data;
+                        });
+
+                    },
+                    getNextAndPre:function (aid) {
+                        var url = "fore_next_article/"+aid;
+                        axios.get(url).then(function(response) {
+                            vue.next_article= response.data;
+                        });
+                        url = "fore_pre_article/"+aid;
+                        axios.get(url).then(function(response) {
+                            vue.pre_article= response.data;
+                        });
+                        url = "fore_rand_article/"+aid;
+                        axios.get(url).then(function(response) {
+                            vue.rand_article= response.data;
+                        });
+                    },
+                    // setPageview:function () {
+                    //     var url = "article_view_count";
+                    //     axios.post(url,vue.article).then(function(response){
+                    //         vue.all_view_count=vue.article.viewCount;
+                    //     });
+                    // },
+                },
+
+                filters:{
+                    subTitleFilter:function(value) {
+                        if (!value) return ''; //如果为空，则返回空字符串
+                        return value.split(" ")[0]; //根据空格拆分，并且只获取数组第一个值
+                    }
+                }
+
+            });
+
+
+        });
+
+    </script>
+
+
+</div>
+
+
+
+

@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="include/admin/adminHeader::html('文章管理')" ></head>
+
+<body>
+<!-- WRAPPER -->
+<div id="wrapper">
+	<!-- LEFT SIDEBAR -->
+	<div id="sidebar-nav" class="sidebar">
+		<div class="sidebar-scroll">
+			<nav>
+				<ul class="nav">
+					<li><a href="admin_index" class=""><i class="lnr lnr-home"></i> <span>首页</span></a></li>
+					<li><a href="admin_article_list" class="active"><i class="lnr lnr-pencil"></i> <span>文章管理</span></a></li>
+					<li><a href="admin_category_list" class=""><i class="lnr lnr-inbox"></i> <span>分类管理</span></a></li>
+					<li><a href="admin_pageview_list" class=""><i class="lnr lnr-users"></i> <span>访问管理</span></a></li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+	<!-- END LEFT SIDEBAR -->
+	<script>
+		$(function(){
+			var cid = getUrlParms("cid");
+			var data4Vue = {
+				uri:'articles',
+				listURL:'admin_article_list',
+				beans: [],
+				bean: {id: 0, name: '','summary':'','traffic':0,category:{'id':0}},
+				pagination:{},
+				category:'',
+				categories: [],
+			};
+
+			//ViewModel
+			var vue = new Vue({
+				el: '#workingArea',
+				data: data4Vue,
+				mounted:function(){ //mounted　表示这个 Vue 对象加载成功了
+					this.list(0);
+					this.listCategories();
+				},
+				methods: {
+					list:function(start){
+						var url =  this.uri+ "?start="+start;
+						axios.get(url).then(function(response) {
+							vue.pagination = response.data;
+							vue.beans = response.data.content;
+
+
+						});
+					},
+					listCategories:function() {
+						var url =  "categories_list";
+						axios.get(url).then(function(response) {
+							vue.categories = response.data;
+							// console.log(vue.categories);
+						});
+					},
+					add: function () {
+						if(!checkEmpty(this.bean.name, "文章名称"))
+							return;
+						if (!checkEmpty(this.bean.summary, "概述"))
+							return;
+						// if (!checkEmpty(this.bean.content, "概述"))
+						// 	return;
+						var url = this.uri;
+						// console.log(vue.bean);
+						axios.post(url,this.bean).then(function(response){
+							vue.list(0);
+							vue.bean =  {id: 0, name: '', 'summary':'','traffic':0,category:{'id':0}};
+						});
+					},
+					deleteBean: function (id) {
+						if(!checkDeleteLink())
+							return;
+						var url = this.uri+"/"+id;
+						axios.delete(url).then(function(response){
+							if(0!=response.data.length)
+								alert(response.data);
+							else
+								vue.list(0);
+						});
+					},
+					editBean: function (id) {
+						console.log(id);
+						var url = this.uri+"/"+id;
+						axios.get(url).then(function(response) {
+							vue.bean = response.data;
+						});
+						console.log(vue.bean);
+					},
+					update: function () {
+						if(!checkEmpty(this.bean.name, "文章名称"))
+							return;
+						if (!checkEmpty(this.bean.summary, "概述"))
+							return;
+						if (!checkEmpty(this.bean.category.id, "分类"))
+							return;
+						var url = this.uri;
+						console.log(vue.bean);
+						axios.put(url,vue.bean).then(function(response){
+							// location.href=vue.listURL;
+							vue.list(0);
+						});
+					},
+					jump: function(page){
+						jump(page,vue); //定义在adminHeader.html 中
+					},
+					jumpByNumber: function(start){
+						jumpByNumber(start,vue);
+					}
+				}
+			});
+		});
+
+	</script>
+	<!-- MAIN -->
+
+	<div class="main" id="workingArea">
+		<!-- MAIN CONTENT -->
+		<div class="main-content">
+			<div class="container-fluid">
+				<h3 class="page-title">文章管理</h3>
+				<div class="row">
+					<div class="col-md-12">
+						<!-- TABLE HOVER -->
+						<div class="panel">
+							<div class="panel-heading">
+								<h3 class="panel-title">文章列表<button type="button" class="btn" data-toggle="modal" data-target="#myModal" >
+									+
+								</button></h3>
+
+							</div>
+							<div class="panel-body">
+								<table class="table table-hover">
+									<thead>
+									<tr>
+										<th>文章ID</th>
+										<th>文章标题</th>
+										<th>文章概述</th>
+										<th>阅读量</th>
+										<th>分类</th>
+										<th>题图</th>
+										<th width="80px">图片管理</th>
+<!--										<th>更改内容</th>-->
+										<th>评论管理</th>
+										<th>编辑</th>
+										<th>删除</th>
+									</tr>
+									</thead>
+									<tbody>
+									<tr v-for="bean in beans ">
+										<td>{{bean.id}}</td>
+										<td>{{bean.name}}</td>
+										<td>{{bean.summary}}</td>
+										<td>{{bean.viewCount}}</td>
+										<td>{{bean.category.name}}</td>
+										<td>
+											<img v-if="null != bean.firstArticleImg" width="40px" :src="'img/articleSingle/'+bean.firstArticleImg.id+'.jpg'">	</td>
+										<td>
+											<a :href="'admin_articleImg_list?aid=' + bean.id "><span class="glyphicon glyphicon-picture"></span></a>
+										</td>
+<!--										<td>-->
+<!--											<a :href="'admin_articleContent_edit?aid=' + bean.id "><span class="glyphicon glyphicon-th-list"></span></a>-->
+<!--										</td>-->
+										<td>
+											<a :href="'admin_review_edit?aid=' + bean.id "><span class="glyphicon glyphicon-th-list"></span></a>
+											</td>
+										<td>
+<!--											<a :href="'admin_article_edit?id=' + bean.id "><span class="glyphicon glyphicon-edit"></span></a>-->
+											<a :href="'#'" @click="editBean(bean.id)" data-toggle="modal" data-target="#editModal"><span class="glyphicon glyphicon-th-list"></span></a>
+										</td>
+										<td>
+											<a href="#nowhere"  @click="deleteBean(bean.id)"><span class="   glyphicon glyphicon-trash"></span></a>
+										</td>
+									</tr>
+
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<!-- END TABLE HOVER -->
+					</div>
+				</div>
+				<div th:replace="include/admin/adminPage::html" ></div>
+
+
+				<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button data-dismiss="modal" class="close" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+								<h4 class="modal-title">新增文章</h4>
+							</div>
+							<div class="modal-body">
+
+								<tr>
+								<p class="edit_form">文章标题</p>
+								<td><input  @keyup.enter="add" v-model.trim="bean.name" type="text" class="form-control"></td>
+								</tr>
+								<tr>
+									<p class="edit_form">概述</p>
+									<td><input  @keyup.enter="add" v-model.trim="bean.summary" type="text"
+												class="form-control"></td>
+								</tr>
+								<tr>
+									<p class="edit_form">分类</p>
+									<select v-model.trim="bean.category.id" class="form-control">
+										<option v-for="c in categories" :value="c.id">
+											{{c.name}}
+										</option>
+									</select>
+<!--									<td><input  @keyup.enter="add" v-model.trim="bean.category.id" type="text"-->
+<!--												class="form-control"></td>-->
+								</tr>
+								<p class="edit_form">文章内容</p>
+								<textarea class="form-control" style="height: 150px" @keyup.enter="add" v-model.trim="bean.content"></textarea>
+
+							</div>
+<!--							<table class="addTable">-->
+<!--							</table>-->
+							<div class="modal-footer">
+								<button data-dismiss="modal" class="btn btn-default" type="button">关闭</button>
+								<button data-dismiss="modal" class="btn btn-primary" type="button" @click="add">提交</button>
+							</div>
+						</div><!-- /.modal-content -->
+					</div><!-- /.modal-dialog -->
+				</div>
+
+<!--				<div style="height:200px"></div>-->
+
+
+				<!--<div class="panel panel-warning addDiv">
+					<div class="panel-heading">新增文章</div>
+					<div class="panel-body">
+						<table class="addTable">
+							<tr>
+								<td>文章标题</td>
+								<td><input  @keyup.enter="add" v-model.trim="bean.name" type="text" class="form-control"></td>
+							</tr>
+							<tr>
+								<td>概述</td>
+								<td><input  @keyup.enter="add" v-model.trim="bean.summary" type="text"
+											class="form-control"></td>
+							</tr>
+							<tr>
+								<td>分类</td>
+								<td><input  @keyup.enter="add" v-model.trim="bean.category.id" type="text"
+											class="form-control"></td>
+							</tr>
+
+							<tr class="submitTR">
+								<td colspan="2" align="center">
+									<a href="#nowhere"  @click="add" class="btn btn-success">提交</a>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</div>-->
+
+				<div class="modal fade" id="editModal" tabindex="-1">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button data-dismiss="modal" class="close" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+								<h4 class="modal-title">编辑文章</h4>
+							</div>
+							<div class="modal-body">
+
+								<tr>
+									<p class="edit_form">文章标题</p>
+									<td><input  @keyup.enter="update" v-model.trim="bean.name" type="text" class="form-control"></td>
+								</tr>
+								<tr>
+									<p class="edit_form">概述</p>
+									<td><input  @keyup.enter="update" v-model.trim="bean.summary" type="text"
+												class="form-control"></td>
+								</tr>
+								<tr>
+									<p class="edit_form">分类</p>
+									<select v-model.trim="bean.category.id" class="form-control">
+										<option v-for="c in categories" :value="c.id">
+											{{c.name}}
+										</option>
+									</select>
+								</tr>
+								<p class="edit_form">文章内容</p>
+								<textarea class="form-control" style="height: 150px" @keyup.enter="update" v-model.trim="bean.content"></textarea>
+
+							</div>
+							<div class="modal-footer">
+								<button data-dismiss="modal" class="btn btn-default" type="button">关闭</button>
+								<button data-dismiss="modal" class="btn btn-primary" type="button" @click="update">提交</button>
+							</div>
+						</div><!-- /.modal-content -->
+					</div><!-- /.modal-dialog -->
+				</div>
+
+
+
+			</div>
+
+		</div>
+		<!-- END MAIN CONTENT -->
+	</div>
+
+	<!-- END MAIN -->
+	<!--		<div class="clearfix"></div>-->
+</div>
+<!-- END WRAPPER -->
+</body>
+
+</html>

@@ -1,0 +1,14 @@
+<svg width="811" height="176.00000000000003" xmlns="http://www.w3.org/2000/svg">
+ <!-- Created with Method Draw - http://github.com/duopixel/Method-Draw/ -->
+ <g>
+  <title>background</title>
+  <rect fill="none" id="canvas_background" height="178" width="813" y="-1" x="-1"/>
+  <g display="none" overflow="visible" y="0" x="0" height="100%" width="100%" id="canvasGrid">
+   <rect fill="url(#gridpattern)" stroke-width="0" y="0" x="0" height="100%" width="100%"/>
+  </g>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <text font-weight="bold" opacity="0.93" stroke="#000" transform="matrix(4.1661744302097805,0,0,5.528781346177609,-1122.6315501541953,-1085.8453491666105) " xml:space="preserve" text-anchor="start" font-family="Arvo, sans-serif" font-size="24" id="svg_1" y="221.575841" x="273.049144" stroke-width="0" fill="#ffffff">RADIOMUGGLE</text>
+ </g>
+</svg>

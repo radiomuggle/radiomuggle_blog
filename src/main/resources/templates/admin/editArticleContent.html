@@ -1,0 +1,119 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+
+<!--<head th:include="include/admin/adminHeader::html('分类管理')" ></head>-->
+
+<!--<body>-->
+<!--&lt;!&ndash; WRAPPER &ndash;&gt;-->
+<!--<div id="wrapper">-->
+<!--    &lt;!&ndash; LEFT SIDEBAR &ndash;&gt;-->
+<!--    <div id="sidebar-nav" class="sidebar">-->
+<!--        <div class="sidebar-scroll">-->
+<!--            <nav>-->
+<!--                <ul class="nav">-->
+<!--                    <li><a href="admin_index" class=""><i class="lnr lnr-home"></i> <span>首页</span></a></li>-->
+<!--                    <li><a href="admin_article_list" class="active"><i class="lnr lnr-pencil"></i> <span>文章管理</span></a></li>-->
+<!--                    <li><a href="admin_category_list" class=""><i class="lnr lnr-inbox"></i> <span>分类管理</span></a></li>-->
+<!--                    <li><a href="admin_pageview_list" class=""><i class="lnr lnr-users"></i> <span>访问管理</span></a></li>-->
+<!--                </ul>-->
+<!--            </nav>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    &lt;!&ndash; END LEFT SIDEBAR &ndash;&gt;-->
+<!--    <script>-->
+<!--        $(function(){-->
+<!--            var aid = getUrlParms("aid");-->
+<!--            var data4Vue = {-->
+<!--                uri:'articleContent',-->
+<!--                listURL:'admin_article_list',-->
+<!--                bean:'',-->
+<!--                articles:''-->
+<!--            };-->
+
+<!--            //ViewModel-->
+<!--            var vue = new Vue({-->
+<!--                el: '#workingArea',-->
+<!--                data: data4Vue,-->
+<!--                mounted: function () { //mounted　表示这个 Vue 对象加载成功了-->
+
+<!--                    this.getArticle(aid);-->
+<!--                    this.get();-->
+<!--                },-->
+<!--                methods: {-->
+<!--                    get:function(){-->
+
+<!--                        var url = "articles/"+aid+"/"+ this.uri;-->
+<!--                        axios.get(url).then(function(response) {-->
+<!--                            vue.bean= response.data;-->
+<!--                            console.log(vue.bean);-->
+<!--                            // alert(vue.bean.article+"&#45;&#45;"+vue.bean.id);-->
+<!--                        });-->
+<!--                    },-->
+<!--                    getArticle:function(aid){-->
+<!--                        var url = "articles/"+aid;-->
+<!--                        axios.get(url).then(function(response) {-->
+<!--                            vue.articles = response.data;-->
+
+<!--                        })-->
+<!--                    },-->
+
+<!--                    update: function () {-->
+<!--                        if(!checkEmpty(this.bean.content, "文章内容"))-->
+<!--                            return;-->
+
+<!--                        var url = this.uri;-->
+
+<!--                        axios.put(url,vue.bean).then(function(response){-->
+<!--                            location.href=vue.listURL;-->
+<!--                        });-->
+<!--                    }-->
+<!--                }-->
+<!--            });-->
+<!--        });-->
+
+<!--    </script>-->
+<!--    &lt;!&ndash; MAIN &ndash;&gt;-->
+
+<!--    <div class="main" id="workingArea">-->
+<!--        &lt;!&ndash; MAIN CONTENT &ndash;&gt;-->
+<!--        <div class="main-content">-->
+<!--            <div class="container-fluid">-->
+<!--                <h3 class="page-title">文章内容</h3>-->
+<!--                <div class="panel panel-warning addPictureDiv">-->
+<!--                    <div class="panel-heading"></div>-->
+<!--                    <div class="panel-body">-->
+<!--                        <table class="addTable">-->
+<!--                            <tr>-->
+<!--                                <td>文章标题</td>-->
+<!--                                <td>{{articles.name}}</td>-->
+<!--                            </tr>-->
+<!--                            <tr>-->
+<!--                                <td>文章内容</td>-->
+<!--&lt;!&ndash;                                @keyup.enter="update" maxlength="500"&ndash;&gt;-->
+<!--                                <td><textarea   v-model.trim="bean.content" type="text"-->
+<!--                                            class="form-control" tabindex="4" cols="50" rows="18"></textarea></td>-->
+<!--                            </tr>-->
+<!--                            <tr class="submitTR">-->
+<!--                                <td colspan="2" align="center">-->
+<!--&lt;!&ndash;                                    <input type="hidden" name="id"   v-model.trim="bean.article.id" >&ndash;&gt;-->
+<!--                                    <a href="#nowhere" class="btn btn-info" @click="update">提 交</a>-->
+<!--                                </td>-->
+<!--                            </tr>-->
+<!--                        </table>-->
+
+<!--                    </div>-->
+<!--                </div>-->
+
+<!--            </div>-->
+
+<!--        </div>-->
+<!--        &lt;!&ndash; END MAIN CONTENT &ndash;&gt;-->
+<!--    </div>-->
+
+<!--    &lt;!&ndash; END MAIN &ndash;&gt;-->
+<!--    &lt;!&ndash;		<div class="clearfix"></div>&ndash;&gt;-->
+<!--</div>-->
+<!--&lt;!&ndash; END WRAPPER &ndash;&gt;-->
+<!--</body>-->
+
+<!--</html>-->

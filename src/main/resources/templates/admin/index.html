@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="include/admin/adminHeader::html('文章管理')" ></head>
+
+<body>
+<!-- WRAPPER -->
+<div id="wrapper">
+	<!-- LEFT SIDEBAR -->
+	<div id="sidebar-nav" class="sidebar">
+		<div class="sidebar-scroll">
+			<nav>
+				<ul class="nav">
+					<li><a href="admin_index" class="active"><span>首页</span></a></li>
+					<li><a href="admin_article_list" class=""><span>文章管理</span></a></li>
+					<li><a href="admin_category_list" class=""> <span>分类管理</span></a></li>
+					<li><a href="admin_pageview_list" class=""></i> <span>访问管理</span></a></li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+	<script>
+		$(function(){
+			var data4Vue = {
+				uri:'articles',
+				all_article_count:0,
+				all_view_count:0,
+				all_review_count:0
+			};
+
+			//ViewModel
+			var vue = new Vue({
+				el: '#workingArea',
+				data: data4Vue,
+				mounted:function(){ //mounted　表示这个 Vue 对象加载成功了
+					// this.list(0);
+
+					this.getCount();
+				},
+				methods: {
+					// list:function(start){
+					// 	var url =  this.uri+ "?start="+start;
+					// 	axios.get(url).then(function(response) {
+					// 		vue.pagination = response.data;
+					// 		vue.beans = response.data.content;
+					// 		// console.log(vue.beans);
+					// 	});
+					// },
+					getCount:function () {
+						var url = "all_article_count";
+						axios.get(url).then(function(response) {
+							vue.all_article_count= response.data;
+						});
+						url = "all_view_count";
+						axios.get(url).then(function(response) {
+							vue.all_view_count= response.data;
+						});
+						url = "all_review_count";
+						axios.get(url).then(function(response) {
+							vue.all_review_count= response.data;
+						});
+
+					},
+				}
+			});
+		});
+
+	</script>
+		<!-- MAIN -->
+		<div class="main" id="workingArea">
+			<!-- MAIN CONTENT -->
+			<div class="main-content">
+				<div class="container-fluid">
+					<!-- OVERVIEW -->
+					<div class="panel panel-headline">
+						<div class="panel-heading">
+							<h3 class="panel-title">数据统计</h3>
+<!--							<p class="panel-subtitle">Period: Oct 14, 2016 - Oct 21, 2016</p>-->
+						</div>
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-md-4">
+									<div class="metric">
+										<span class="icon"><i class="fa fa-inbox"></i></span>
+										<p>
+											<span class="number">{{all_review_count}}</span>
+											<span class="title">评论数</span>
+										</p>
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="metric">
+										<span class="icon"><i class="fa fa-eye"></i></span>
+										<p>
+											<span class="number">{{all_view_count}}</span>
+											<span class="title">Visits</span>
+										</p>
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="metric">
+										<span class="icon"><i class="fa fa-bar-chart"></i></span>
+										<p>
+											<span class="number">{{all_article_count}}</span>
+											<span class="title">Blogs</span>
+										</p>
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<!-- END OVERVIEW -->
+
+				</div>
+			</div>
+			<!-- END MAIN CONTENT -->
+		</div>
+		<!-- END MAIN -->
+		<div class="clearfix"></div>
+	</div>
+	<!-- END WRAPPER -->
+
+
+</body>
+
+</html>

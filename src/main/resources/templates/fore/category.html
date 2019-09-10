@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" >
+<head th:include="include/fore/header::html('博客分类页')" ></head>
+<body>
+
+<link href="css/fore/CSS/mainc.css" rel="stylesheet" />
+<div th:replace="include/fore/top::html" ></div>
+	<div th:replace="include/fore/home/categoryPage::html" ></div>
+
+<!-- HEADER -->
+
+<div id="A1-main">
+
+	<div id="wrapper-logo" class="object">
+		<a href="home"><div id="logo" class="shadow object" ><img src="img/fore/logotop.svg" width="169" height="45"/></div></a>
+<!--		<a href="home"><div id="logo" class="shadow object"></div></a>-->
+	</div>
+
+	<div id="A1">
+
+		<div class="blank"></div>
+		<div id="A0"></div>
+		<div id="A0-2"></div>
+
+	</div>
+
+</div>
+
+<div id="workingArea">
+<div id="A2">
+<!--	<div id="text-2">-->
+<!--			<button type="button" class="btn dropdown-toggle"  data-toggle="dropdown" >-->
+<!--				{{category.name}}-->
+<!--				<span class="caret"></span>-->
+<!--			</button>-->
+<!--	</div>-->
+<!--	<div >-->
+<!--			<ul class="dropdown-menu">-->
+<!--				<li v-for="c in categories" >-->
+<!--					<a :href="'fore_category?cid='+c.id">{{c.name}}</a>-->
+<!--				</li>-->
+<!--			</ul>-->
+<!--	</div>-->
+<!--			<div style="height:100px"></div>-->
+
+
+<div v-show="showTitle">
+	<div id="text-2" >
+		<a  @click="toggle2Categories">{{category.name}}</a>
+		<div v-if="articles.length==0" style="font-size:20px;color:#CCC;" > 此分类暂时没有文章</div>
+		<div v-if="articles.length!=0" style="font-size:10px;text-align:center;" >
+
+<!--			<table>-->
+<!--				<tr>-->
+					<a :href="'?cid='+category.id+'&sort=date'" :class="{'grayColumn':(sort=='date')}">最近<span class="glyphicon glyphicon-arrow-down"></span></a>
+					<a :href="'?cid='+category.id+'&sort=review'" :class="{'grayColumn':(sort=='review')}">评论量<span class="glyphicon glyphicon-arrow-down"></span></a>
+					<a :href="'?cid='+category.id+'&sort=pageview'" :class="{'grayColumn':(sort=='pageview')}">浏览量<span class="glyphicon glyphicon-arrow-down"></span></a>
+
+<!--					<td :class="{'grayColumn':(sort==null||sort=='date')}"><a :href="'?cid='+category.id+'&sort=date'">最近<span class="glyphicon glyphicon-arrow-down"></span></a></td>-->
+<!--					<td :class="{'grayColumn':(sort==null||sort=='review')}"><a :href="'?cid='+category.id+'&sort=review'">评论量<span class="glyphicon glyphicon-arrow-down"></span></a></td>-->
+<!--					<td :class="{'grayColumn':(sort==null||sort=='pageview')}"><a :href="'?cid='+category.id+'&sort=pageview'">浏览量<span class="glyphicon glyphicon-arrow-down"></span></a></td>-->
+<!--					<td :class="{'grayColumn':(sort==null||sort=='create_time')}"><a :href="'?cid='+category.id+'&sort=create_time'">最近<span class="glyphicon glyphicon-arrow-down"></span></a></td>-->
+<!--					<td :class="{'grayColumn':(sort==null||sort=='reviewCount')}"><a :href="'?cid='+category.id+'&sort=reviewCount'">评论量<span class="glyphicon glyphicon-arrow-down"></span></a></td>-->
+<!--					<td :class="{'grayColumn':(sort==null||sort=='viewCount')}"><a :href="'?cid='+category.id+'&sort=viewCount'">浏览量<span class="glyphicon glyphicon-arrow-down"></span></a></td>-->
+<!--				</tr>-->
+<!--			</table>-->
+
+		</div>
+	</div>
+<!--	<div id="text-2b" v-if="articles.length==0"> 此分类暂时没有文章</div>-->
+</div>
+<div v-show="showCategories">
+	<div id="text-3" >
+		<a @click="toggle2Title">
+			分类列表
+		</a>
+	</div>
+	<div id="wrapper-A2-date-2" >
+		<ul>
+
+		</ul>
+		<ul>
+			<li v-for="c in categories" >
+				<div v-if="c.name!=category.name"><a :href="'fore_category?cid='+c.id">{{c.name}}</a></div>
+			</li>
+			<li >
+				<div><a :href="'article_all'">所有文章</a></div>
+
+			</li>
+		</ul>
+		<!--		<div id="A2-date-1">We'va found {{category.number}} articles published</div>-->
+	</div>
+</div>
+
+
+</div>
+
+
+<!-- PART 3 - PORTFOLIO ARTICLES 3 GRID -->
+
+<div id="wrapper-A3" class="object">
+
+
+<!--	<div id="A3-left" v-for="a,index in articles">-->
+	<div id="A3-left" v-for="a,index in category.articles">
+
+		<div id="wrapper-post1" class="text-part-A5">
+			<a :href="'fore_article?aid='+a.id"><div id="A3-left-image-1"><img :src="'img/articleSingle_middle/'+a.firstArticleImg.id+'.jpg'"  alt="post an image with animation" :title="a.name" class="grow"/></div></a>
+
+			<div id="wrapper-A3-left-date-1">
+				<div id="A3-left-date-1">{{a.create_time |formatDateFilter('YYYY-MM-DD')}}</div>
+<!--				<div id="A3-left-icone-1"></div>-->
+			</div>
+			<ul>
+				<li><div id="A3-left-title-1"><a :href="'fore_article?aid='+a.id">{{a.name}}</a></div></li>
+			</ul>
+			<div id="A3-left-text-1">{{a.summary}}</div>
+		</div>
+
+	</div>
+
+
+	<div class="calage"></div>
+</div>
+
+
+
+<!--<div id="A4" class="object">-->
+
+<!--	<div id="wrapper-A4" class="text-part-A5">-->
+
+<!--		<div id="line1-A4"></div>-->
+<!--		<div id="line2-A4"></div>-->
+
+<!--		<ul>-->
+<!--			<li :class="{ disabled: !pagination.hasPrevious }"><div id="A4-nextpage-1"><a  href="#nowhere" @click="jump('pre')">&#171;&nbsp;&nbsp;Previous page</a></div></li>-->
+<!--			<li :class="{ disabled: !pagination.hasNext }"><div id="A4-nextpage-2"><a  href="#nowhere" @click="jump('next')">Next page&nbsp;&nbsp;&#187;</a></div></li>-->
+<!--		</ul>-->
+
+<!--	</div>-->
+
+<!--</div>-->
+
+<div th:replace="include/fore/footer::html" ></div>
+
+
+<!--SCRIPT-->
+<script type="text/javascript" src="css/fore/JS/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="css/fore/JS/jquery.scrollTo.min.js"></script>
+<script type="text/javascript" src="css/fore/JS/jquery.localScroll.min.js"></script>
+<script type="text/javascript" src="css/fore/JS/jquery-animate-css-rotate-scale.js"></script>
+<script type="text/javascript" src="css/fore/JS/wow.min.js"></script>
+<script type="text/javascript">new WOW().init();</script>
+<script type="text/javascript" src="css/fore/JS/fastclick.js"></script>
+<script type='application/javascript'>
+	window.addEventListener('load', function() {
+		new FastClick(document.body);
+	}, false);
+</script>
+
+<script>
+
+	$(window).on('beforeunload', function(){
+		$(".blank").fadeIn(300);
+		$("#main-wrapper-menu,#A1-main,#A1,#A2,#wrapper-A3,#A3,#A4,#A4a,#A4b,#A5,#A6,#A7").animate({'opacity':'0'},300);
+		$(window).delay(1000).scrollTop(0);
+	});
+
+	$(document).ready(function() {
+
+		$.localScroll();
+
+		$(".blank").delay(1000).fadeOut(300);
+		$("#wrapper-logo,#wrapper-plus").delay(2000).animate({'opacity':'1'},300);
+		$("#wrapper-A3,#A2").delay(2000).animate({'opacity':'1'},300);
+	});
+
+
+
+	/*BUTTON LOGO*/
+
+	$(document).on('touchstart mouseover', '#wrapper-logo', function(event){
+		event.stopPropagation();
+		event.preventDefault();
+		if(event.handled !== true) {
+
+			$("#wrapper-logo").stop().animate({'scale':'1.1','opacity':'0.5'},200);
+
+			event.handled = true;
+		} else {
+			return false;
+		}
+	});
+
+	$(document).on('touchend mouseout', '#wrapper-logo', function(event){
+		event.stopPropagation();
+		event.preventDefault();
+		if(event.handled !== true) {
+
+			$("#wrapper-logo").stop().animate({'scale':'1','opacity':'1'},200);
+
+			event.handled = true;
+		} else {
+			return false;
+		}
+	});
+
+	/*BUTTON PLUS*/
+
+	$(document).on('touchstart mouseover', '#wrapper-plus', function(event){
+		event.stopPropagation();
+		event.preventDefault();
+		if(event.handled !== true) {
+
+			$("#wrapper-plus").stop().animate({'opacity':'0.75','scale':'1.1'},150);
+
+			event.handled = true;
+		} else {
+			return false;
+		}
+	});
+
+	$(document).on('touchend mouseout', '#wrapper-plus', function(event){
+		event.stopPropagation();
+		event.preventDefault();
+		if(event.handled !== true) {
+
+			$("#wrapper-plus").stop().animate({'opacity':'1','scale':'1'},150);
+
+			event.handled = true;
+		} else {
+			return false;
+		}
+	});
+
+	/*BUTTON CROSS*/
+
+	$(document).on('touchstart mouseover', '#wrapper-cross', function(event){
+		event.stopPropagation();
+		event.preventDefault();
+		if(event.handled !== true) {
+
+			$("#wrapper-cross").stop().animate({'opacity':'0.75','scale':'1.1'},150);
+
+			event.handled = true;
+		} else {
+			return false;
+		}
+	});
+
+	$(document).on('touchend mouseout', '#wrapper-cross', function(event){
+		event.stopPropagation();
+		event.preventDefault();
+		if(event.handled !== true) {
+
+			$("#wrapper-cross").stop().animate({'opacity':'1','scale':'1'},150);
+
+			event.handled = true;
+		} else {
+			return false;
+		}
+	});
+
+	// /*BUTTON HOME*/
+	//
+	// $(document).on('touchstart mouseover', '#wrapper-home', function(event){
+	// 	event.stopPropagation();
+	// 	event.preventDefault();
+	// 	if(event.handled !== true) {
+	//
+	// 		$("#wrapper-home").stop().animate({'opacity':'0.75','scale':'1.1'},150);
+	//
+	// 		event.handled = true;
+	// 	} else {
+	// 		return false;
+	// 	}
+	// });
+	//
+	// $(document).on('touchend mouseout', '#wrapper-home', function(event){
+	// 	event.stopPropagation();
+	// 	event.preventDefault();
+	// 	if(event.handled !== true) {
+	//
+	// 		$("#wrapper-home").stop().animate({'opacity':'1','scale':'1'},150);
+	//
+	// 		event.handled = true;
+	// 	} else {
+	// 		return false;
+	// 	}
+	// });
+
+
+</script>
+</div>
+</body>
+</html>

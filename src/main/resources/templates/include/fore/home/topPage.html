@@ -1,0 +1,33 @@
+<div th:fragment="html" xmlns:th="http://www.w3.org/1999/xhtml">
+    <script>
+        $(function(){
+            var data4Vue = {
+                rand_article:''
+            };
+            //ViewModel
+            var vue = new Vue({
+                el: '#main-wrapper-menu',
+                data: data4Vue,
+                mounted:function(){
+                    // this.getNextAndPre();
+                },
+                methods: {
+                    // getNextAndPre:function () {
+                    //     var url = "fore_rand_article";
+                    //     axios.get(url).then(function(response) {
+                    //         vue.rand_article= response.data;
+                    //         console.log(vue.rand_article);
+                    //     });
+
+                    // },
+                }
+            });
+        });
+    </script>
+
+
+</div>
+
+
+
+

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="include/admin/adminHeader::html('文章管理')" ></head>
+
+<body>
+<!-- WRAPPER -->
+<div id="wrapper">
+    <!-- LEFT SIDEBAR -->
+    <div id="sidebar-nav" class="sidebar">
+        <div class="sidebar-scroll">
+            <nav>
+                <ul class="nav">
+                    <li><a href="admin_index" class=""><i class="lnr lnr-home"></i> <span>首页</span></a></li>
+                    <li><a href="admin_article_list" class="active"><i class="lnr lnr-pencil"></i> <span>文章管理</span></a></li>
+                    <li><a href="admin_category_list" class=""><i class="lnr lnr-inbox"></i> <span>分类管理</span></a></li>
+                    <li><a href="admin_pageview_list" class=""><i class="lnr lnr-users"></i> <span>访问管理</span></a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <!-- END LEFT SIDEBAR -->
+    <script>
+        $(function(){
+            var aid = getUrlParms("aid");
+            var data4Vue = {
+                uri:'articleImgs',
+                singleArticleImgs: [],
+                detailArticleImgs: [],
+                article: '',
+                singleFile:'',
+                detailFile:''
+            };
+
+            //ViewModel
+            var vue = new Vue({
+                el: '#workingArea',
+                data: data4Vue,
+                mounted:function(){ //mounted　表示这个 Vue 对象加载成功了
+                    this.listSingles();
+                    this.listDetails();
+                    this.getArticle(aid);
+                },
+                methods: {
+                    getArticle:function(aid){
+                        var url = "articles/"+aid;
+
+                        axios.get(url).then(function(response) {
+                            vue.article = response.data;
+                        })
+                    },
+                    listSingles:function(start){
+                        var url =  "articles/"+aid+"/"+this.uri+"?type=single";
+                        axios.get(url).then(function(response) {
+                            vue.singleArticleImgs = response.data;
+                        });
+                    },
+                    listDetails:function(start){
+                        var url =  "articles/"+aid+"/"+this.uri+"?type=detail";
+                        axios.get(url).then(function(response) {
+                            vue.detailArticleImgs = response.data;
+                        });
+                    },
+                    addSingle: function () {
+                        if(!checkEmpty(this.singleFile, "单个图片"))
+                            return;
+
+                        var url = this.uri+"?type=single&aid="+aid;
+
+                        var formData = new FormData();
+                        formData.append("image", this.singleFile);
+
+                        axios.post(url,formData).then(function(response){
+                            vue.listSingles();
+                            $("#singleImg").val('');
+                            vue.singleFile = null;
+                        });
+                    },
+                    addDetail: function () {
+                        if(!checkEmpty(this.detailFile, "详情图片"))
+                            return;
+
+                        var url = this.uri+"?type=detail&aid="+aid;
+
+                        var formData = new FormData();
+                        formData.append("image", this.detailFile);
+
+                        axios.post(url,formData).then(function(response){
+                            vue.listDetails();
+                            $("#detailImg").val('');
+                            vue.detailFile = null;
+                        });
+                    },
+                    deleteBean: function (id) {
+                        if(!checkDeleteLink())
+                            return;
+                        var url = this.uri+"/"+id;
+                        axios.delete(url).then(function(response){
+                            vue.listSingles();
+                            vue.listDetails();
+                        });
+                    },
+                    getSingleFile: function (event) {
+                        this.singleFile = event.target.files[0];
+                    },
+                    getDetailFile: function (event) {
+                        this.detailFile = event.target.files[0];
+                    },
+
+                }
+            });
+        });
+
+    </script>
+    <!-- MAIN -->
+
+    <div class="main" id="workingArea">
+        <!-- MAIN CONTENT -->
+        <div class="main-content">
+            <div class="container-fluid">
+                <h3 class="page-title">文章图片管理</h3>
+                <table class="addPictureTable" align="center">
+                    <tr>
+                        <td class="addPictureTableTD">
+                            <div>
+                                <div class="panel panel-warning addPictureDiv">
+                                   <div class="panel-heading">新增产品<b class="text-primary"> 单个 </b>图片</div>
+                                    <div class="panel-body">
+                                        <table class="addTable">
+                                            <tr>
+                                                <td>请选择本地图片 尺寸400X400 为佳</td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <input id="singleImg" type="file" @change="getSingleFile($event)" name="image" />
+                                                </td>
+                                            </tr>
+                                            <tr class="submitTR">
+                                                <td align="center">
+                                                    <button type="submit" @click="addSingle" class="btn btn-success">提 交</button>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                <table class="table table-striped table-bordered table-hover  table-condensed">
+                                    <thead>
+                                    <tr class="info">
+                                        <th>ID</th>
+                                        <th>产品单个图片缩略图</th>
+                                        <th>删除</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr v-for="ai in singleArticleImgs">
+                                        <td>{{ai.id}}</td>
+                                        <td>
+                                            <a title="点击查看原图" :href="'img/articleSingle/'+ai.id+'.jpg'"><img height="50px" :src="'img/articleSingle/'+ai.id+'.jpg'"></a>
+                                        </td>
+                                        <td><a href="#nowhere" @click="deleteBean(ai.id)"><span class="glyphicon glyphicon-trash"></span></a></td>
+
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </td>
+                        <td class="addPictureTableTD">
+                            <div>
+
+                                <div class="panel panel-warning addPictureDiv">
+                                    <div class="panel-heading">新增产品<b class="text-primary"> 详情 </b>图片</div>
+                                    <div class="panel-body">
+                                        <table class="addTable">
+                                            <tr>
+                                                <td>请选择本地图片 宽度790  为佳</td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <input id="detailImg" type="file" @change="getDetailFile($event)" name="image" />
+                                                </td>
+                                            </tr>
+                                            <tr class="submitTR">
+                                                <td align="center">
+                                                    <button type="submit" @click="addDetail" class="btn btn-success">提 交</button>
+                                                </td>
+                                            </tr>
+                                        </table>
+
+                                    </div>
+                                </div>
+                                <table class="table table-striped table-bordered table-hover  table-condensed">
+                                    <thead>
+                                    <tr class="info">
+                                        <th>ID</th>
+                                        <th>产品详情图片缩略图</th>
+                                        <th>删除</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr v-for="ai in detailArticleImgs">
+                                        <td>{{ai.id}}</td>
+                                        <td>
+                                            <a title="点击查看原图" :href="'img/articleDetail/'+ai.id+'.jpg'"><img height="50px" :src="'img/articleDetail/'+ai.id+'.jpg'"></a>
+                                        </td>
+                                        <td><a href="#nowhere" @click="deleteBean(ai.id)"><span class="glyphicon glyphicon-trash"></span></a></td>
+
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+        </div>
+        <!-- END MAIN CONTENT -->
+    </div>
+
+    <!-- END MAIN -->
+    <!--		<div class="clearfix"></div>-->
+</div>
+<!-- END WRAPPER -->
+</body>
+
+</html>

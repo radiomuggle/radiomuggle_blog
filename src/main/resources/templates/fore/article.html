@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" >
+<head th:include="include/fore/header::html('文章页')" ></head>
+<body>
+
+<link href="css/fore/CSS/maina.css" rel="stylesheet" />
+
+<div th:replace="include/fore/top::html" ></div>
+<div th:replace="include/fore/home/articlePage::html" ></div>
+<div id="workingArea">
+	<!-- HEADER -->
+
+<div id="A1-main">
+
+	<div id="wrapper-logo" class="object">
+		<a href="home"><div id="logo" class="shadow object" ><img src="img/fore/logotop.svg" width="169" height="45"/></div></a>
+		<!--		<a href="home"><div id="logo" class="shadow object"></div></a>-->
+	</div>
+
+	<div id="A1">
+
+		<div class="blank"></div>
+		<div id="A0"></div>
+		<div id="A0-2"></div>
+
+	</div>
+
+</div>
+<!--<div id="workingArea">-->
+<div id="A2">
+        
+        <div id="text-2"><a href="JavaScript:history.go(-1)" title="返回">{{article.name}}</a></div>
+
+        <div id="wrapper-A2-date-1">
+
+			<div id="A2-date-1" v-show="showCreate_time"><a  href="#write" style="color:#CCC;" @click="toggle2Modify">发布于 {{article.create_time |formatDateFilter('YYYY-MM-DD')}}</a></div>
+			<div id="A2-date-1" v-show="showModify_time"><a  href="#write" style="color:#CCC;" @click="toggle2Create">编辑于 {{article.modify_time |formatDateFilter('YYYY-MM-DD')}}</a></div>
+<!--                <div id="A2-icone-1"></div>-->
+<!--                <div id="A2-icone-eye-1"></div>-->
+        </div>
+</div>
+    
+
+<div id="wrapper-A3" class="object">
+    
+<!--    	<div id="A3-top">-->
+<!--			<div id="A3-image" v-if="article.firstArticleImg"><img :src="'img/articleSingle_middle/'+article.firstArticleImg.id+'.jpg'"  alt="post an image with animation" :title="article.name" /></div>-->
+<!--        </div>-->
+
+        <div id="A3-top-2" class="wow fadeInY" data-wow-offset="10">
+<!--			<div id="A3-text-1" v-if="article.articleContent"> {{article.articleContent.content}}</div>-->
+			<div id="A3-text-1" v-if="article.articleContent" v-html="article.articleContent.content"> </div>
+<!--			<div>v-html="article.articleContent.content"</div>-->
+        </div>
+</div>
+
+
+
+<div id="A4" class="object">
+
+	<div id="wrapper-A4" class="text-part-A5">
+    	
+    <div id="line1-A4"></div>
+    <div id="line2-A4"></div>
+
+    <ul>  
+    <li><div id="A4-nextpage-1" v-if="pre_article"><a :href="'fore_article?aid='+pre_article.id" :title="pre_article.name">&#171;&nbsp;&nbsp;上一篇</a></div></li>
+    <li><div id="A4-nextpage-rand" v-if="rand_article"><a :href="'fore_article?aid='+rand_article.id" :title="'不知道哪一篇'"> ...</a></div></li>
+    <li><div id="A4-nextpage-2" v-if="next_article"><a :href="'fore_article?aid='+next_article.id" :title="next_article.name">下一篇&nbsp;&nbsp;&#187;</a></div></li>
+    </ul>
+        
+    </div>
+
+</div>
+
+
+	<div id="reviews" v-show="showReviews">
+
+		<div id="A4ab" class="object">
+
+			<div id="wrapper-A4ab" class="wow bounceInRight" data-wow-offset="10">
+				<div id="A4ab-title-1">
+					评论列表 {{article.reviewCount}}<br>
+					<a  href="#write" style="color:#CCC;" @click="toggle2Write">
+						去写评论
+					</a>
+				</div>
+			</div>
+
+		</div>
+
+<!--		<div  v-for="r in article.reviews">-->
+<!--				<div>-->
+<!--					<div>-->
+<!--						{{r.content }}-->
+<!--					</div>-->
+<!--					<div>-->
+<!--						{{r.create_time|formatDateFilter('YYYY-MM-DD')}}-->
+<!--					</div>-->
+<!--				</div>-->
+<!--				<div class="productReviewItemUserInfo">-->
+<!--					{{r.name}}<span class="userInfoGrayPart"></span>-->
+<!--				</div>-->
+<!--		</div>-->
+
+		<div id="A4bb" class="object">
+
+			<div id="wrapper-A4bb">
+				<div id = "conteneurb">
+<!--					<div>-->
+<!--&lt;!&ndash;						<div id="er-message"></div>&ndash;&gt;-->
+<!--						<p><input type="text" tabindex="1" placeholder="Name"/></p>-->
+<!--						<p><input type="text" tabindex="2" placeholder="Email"/></p>-->
+<!--						<p><textarea maxlength="500" placeholder="Content" tabindex="4" cols="30" rows="8"></textarea></p>-->
+<!--					</div>-->
+					<div class="productReviewItem" v-for="r,index in article.reviews" v-if="index<6 && r.is_effective==1">
+						<div>
+							<div class="articleReviewItemDate">{{r.name}}</div>
+							<div>{{r.content}}</div>
+
+							<div class="articleReviewItemDate">{{r.create_time|formatDateFilter('YYYY-MM-DD')}}</div>
+						</div>
+					</div>
+
+					<div class="calage"></div>
+
+				</div>
+			</div>
+
+		</div>
+
+
+	</div>
+
+<div id="write" v-show="showWrite">
+<div id="A4a" class="object" >
+
+	<div id="wrapper-A4a" class="wow bounceInRight" data-wow-offset="10" align="center">
+    <div id="A4a-title-1" align="center">
+		写评论<br>
+		<a  href="#reviews" style="color:#CCC;" @click="toggle2Reviews">
+			查看评论列表
+		</a>
+	</div>
+    </div>
+
+</div>
+
+
+<div id="A4b" class="object">
+
+	<div id="wrapper-A4b">
+    	<div id = "conteneur">
+			<div align="center">
+	 				<div class="er-message"></div>
+<!--    			<fieldset>-->
+					<p><input @keyup.enter="add" v-model.trim="review.name" type="text" tabindex="1" placeholder="Name"/></p>
+					<p><input @keyup.enter="add" v-model.trim="review.email" type="text" tabindex="2" placeholder="Email"/></p>
+					<p><textarea @keyup.enter="add" v-model.trim="review.content" maxlength="500" placeholder="Content" tabindex="4" cols="30" rows="8"></textarea></p>
+<!--				</fieldset>-->
+
+					<p><input @keyup.enter="add" @click="showImageCode" v-model="review.inputImageCode"  type="text" placeholder="点击获取验证码" onfocus="this.placeholder=''"  /></p>
+					<div v-show="ImageCode">
+<!--						<img id="img" alt="验证码" onclick="this.src='/defaultKaptcha?d='+new Date()*1" src="/defaultKaptcha"/>-->
+						<img :title="'验证码'" @click="getImageCode" :src="codeUrl"/>
+						<div class="er-message"></div>
+					</div>
+				<div style="text-align:center;"><button @click="add" type="button">Send</button></div>
+<!--				<div style="text-align:center;"><button @click="verify" type="button">Send</button></div>-->
+			</div>
+    	</div>
+    </div>
+
+</div>
+
+</div>
+	<div th:replace="include/fore/footer::html" ></div>
+
+<!--SCRIPT-->
+	<script src="css/fore/JS/jquery-1.8.3.min.js"></script>
+	<script type="text/javascript" src="css/fore/JS/jquery.scrollTo.min.js"></script>
+	<script type="text/javascript" src="css/fore/JS/jquery.localScroll.min.js"></script>
+	<script type="text/javascript" src="css/fore/JS/jquery-animate-css-rotate-scale.js"></script>
+	<script type="text/javascript" src="css/fore/JS/wow.min.js"></script>
+	<script type="text/javascript">new WOW().init();</script>
+	<script type="text/javascript" src="css/fore/JS/fastclick.js"></script>
+    <script type='application/javascript'>
+window.addEventListener('load', function() {
+    new FastClick(document.body);
+}, false);
+</script>
+
+	<script>
+	
+	$(window).on('beforeunload', function(){
+		$(".blank").fadeIn(300);
+		$("#main-wrapper-menu,#A1-main,#A1,#A2,#wrapper-A3,#A3,#A4,#A4a,#A4b,#A5,#A6,#A7").animate({'opacity':'0'},300);
+  		$(window).delay(1000).scrollTop(0);
+	});
+	
+   $(document).ready(function() {
+	
+	$.localScroll();
+	
+	$(".blank").delay(1000).fadeOut(300);
+	$("#wrapper-logo,#wrapper-plus").delay(2000).animate({'opacity':'1'},300);
+	$("#wrapper-A3,#A2").delay(2000).animate({'opacity':'1'},300);
+	});
+
+
+
+/*BUTTON LOGO*/
+
+$(document).on('touchstart mouseover', '#wrapper-logo', function(event){
+        event.stopPropagation();
+        event.preventDefault();
+        if(event.handled !== true) {
+			 
+			 $("#wrapper-logo").stop().animate({'scale':'1.1','opacity':'0.5'},200);
+
+            event.handled = true;
+        } else {
+            return false;
+        }
+});
+
+$(document).on('touchend mouseout', '#wrapper-logo', function(event){
+        event.stopPropagation();
+        event.preventDefault();
+        if(event.handled !== true) {
+			 
+			 $("#wrapper-logo").stop().animate({'scale':'1','opacity':'1'},200);
+
+            event.handled = true;
+        } else {
+            return false;
+        }
+});
+
+/*BUTTON PLUS*/
+
+$(document).on('touchstart mouseover', '#wrapper-plus', function(event){
+        event.stopPropagation();
+        event.preventDefault();
+        if(event.handled !== true) {
+			 
+			 $("#wrapper-plus").stop().animate({'opacity':'0.75','scale':'1.1'},150);
+
+            event.handled = true;
+        } else {
+            return false;
+        }
+});
+
+$(document).on('touchend mouseout', '#wrapper-plus', function(event){
+        event.stopPropagation();
+        event.preventDefault();
+        if(event.handled !== true) {
+			 
+			 $("#wrapper-plus").stop().animate({'opacity':'1','scale':'1'},150);
+			 
+            event.handled = true;
+        } else {
+            return false;
+        }
+});
+
+/*BUTTON CROSS*/
+
+$(document).on('touchstart mouseover', '#wrapper-cross', function(event){
+        event.stopPropagation();
+        event.preventDefault();
+        if(event.handled !== true) {
+			 
+			 $("#wrapper-cross").stop().animate({'opacity':'0.75','scale':'1.1'},150);
+
+            event.handled = true;
+        } else {
+            return false;
+        }
+});
+
+$(document).on('touchend mouseout', '#wrapper-cross', function(event){
+        event.stopPropagation();
+        event.preventDefault();
+        if(event.handled !== true) {
+			 
+			 $("#wrapper-cross").stop().animate({'opacity':'1','scale':'1'},150);
+			 
+            event.handled = true;
+        } else {
+            return false;
+        }
+});
+
+/*BUTTON HOME*/
+
+$(document).on('touchstart mouseover', '#wrapper-home', function(event){
+        event.stopPropagation();
+        event.preventDefault();
+        if(event.handled !== true) {
+			 
+			 $("#wrapper-home").stop().animate({'opacity':'0.75','scale':'1.1'},150);
+
+            event.handled = true;
+        } else {
+            return false;
+        }
+});
+
+$(document).on('touchend mouseout', '#wrapper-home', function(event){
+        event.stopPropagation();
+        event.preventDefault();
+        if(event.handled !== true) {
+			 
+			 $("#wrapper-home").stop().animate({'opacity':'1','scale':'1'},150);
+			 
+            event.handled = true;
+        } else {
+            return false;
+        }
+});
+
+
+
+
+
+/*BUTTON PAGE2*/
+
+$(document).on('touchstart mouseover', '#main-page2', function(event){
+        event.stopPropagation();
+        event.preventDefault();
+        if(event.handled !== true) {
+			 
+			 $("#page2").stop().css({'background-color':'transparent','border-color':'#51CE77'});
+			 $("#text-page2").stop().css({'color':'#51CE77'},250);
+			 $("#main-page2").stop().animate({'scale':'1.1'},250);
+
+            event.handled = true;
+        } else {
+            return false;
+        }
+});
+
+$(document).on('touchend mouseout', '#main-page2', function(event){
+        event.stopPropagation();
+        event.preventDefault();
+        if(event.handled !== true) {
+			 
+			 $("#page2").stop().css({'background-color':'#51CE77','border-color':'#51CE77'});
+		     $("#text-page2").stop().css({'color':'#FFF'},250);
+	         $("#main-page2").stop().animate({'scale':'1'},250);
+			 
+            event.handled = true;
+        } else {
+            return false;
+        }
+});
+
+/*BUTTON PAGE3*/
+
+$(document).on('touchstart mouseover', '#main-page3', function(event){
+        event.stopPropagation();
+        event.preventDefault();
+        if(event.handled !== true) {
+			 
+			 $("#page3").stop().css({'background-color':'transparent','border-color':'#51CE77'});
+			 $("#text-page3").stop().css({'color':'#51CE77'},250);
+			 $("#main-page3").stop().animate({'scale':'1.1'},250);
+
+            event.handled = true;
+        } else {
+            return false;
+        }
+});
+
+$(document).on('touchend mouseout', '#main-page3', function(event){
+        event.stopPropagation();
+        event.preventDefault();
+        if(event.handled !== true) {
+			 
+			 $("#page3").stop().css({'background-color':'#51CE77','border-color':'#51CE77'});
+		     $("#text-page3").stop().css({'color':'#FFF'},250);
+	         $("#main-page3").stop().animate({'scale':'1'},250);
+			 
+            event.handled = true;
+        } else {
+            return false;
+        }
+});
+
+/*BUTTON PAGE4*/
+
+$(document).on('touchstart mouseover', '#main-page4', function(event){
+        event.stopPropagation();
+        event.preventDefault();
+        if(event.handled !== true) {
+			 
+			 $("#page4").stop().css({'background-color':'transparent','border-color':'#51CE77'});
+			 $("#text-page4").stop().css({'color':'#81E2A1'},250);
+			 $("#main-page4").stop().animate({'scale':'1.1'},250);
+
+            event.handled = true;
+        } else {
+            return false;
+        }
+});
+
+$(document).on('touchend mouseout', '#main-page4', function(event){
+        event.stopPropagation();
+        event.preventDefault();
+        if(event.handled !== true) {
+			 
+			 $("#page4").stop().css({'background-color':'#51CE77','border-color':'#51CE77'});
+		     $("#text-page4").stop().css({'color':'#FFF'},250);
+	         $("#main-page4").stop().animate({'scale':'1'},250);
+			 
+            event.handled = true;
+        } else {
+            return false;
+        }
+});
+
+
+	</script>
+
+</div>
+</body>
+</html>

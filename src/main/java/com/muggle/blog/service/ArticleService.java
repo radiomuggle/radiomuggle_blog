@@ -6,7 +6,11 @@ import com.muggle.blog.pojo.ArticleContent;
 import com.muggle.blog.pojo.Category;
 import com.muggle.blog.pojo.Review;
 import com.muggle.blog.util.Page4Navigator;
+import com.muggle.blog.util.SpringContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@CacheConfig(cacheNames="articles")
 public class ArticleService  {
 
     @Autowired
@@ -26,6 +31,7 @@ public class ArticleService  {
     @Autowired CategoryService categoryService;
     @Autowired ArticleImgService articleImgService;
 
+    @Cacheable(key="'articles-page-'+#p0+'-'+#p1")
     public Page4Navigator<Article> list(int start, int size, int navigatePages) {
         Sort sort = new Sort(Sort.Direction.DESC, "id");
         Pageable pageable = new PageRequest(start, size,sort);
@@ -34,6 +40,7 @@ public class ArticleService  {
         return new Page4Navigator<>(pageFromJPA,navigatePages);
     }
 
+    @Cacheable(key="'articles-cid-'+#p0+'-page-'+#p1 + '-' + #p2 ")
     public Page4Navigator<Article> listByCategory(int cid, int start, int size, int navigatePages) {
         Category category = categoryService.get(cid);
         Sort sort = new Sort(Sort.Direction.DESC, "id");
@@ -43,6 +50,7 @@ public class ArticleService  {
         return new Page4Navigator<>(pageFromJPA, navigatePages);
     }
 
+    @Cacheable(key="'articles'")
     public List<Article> list() {
         Sort sort = new Sort(Sort.Direction.DESC, "id");
         return articleDAO.findAll(sort);
@@ -78,17 +86,23 @@ public class ArticleService  {
         return a;
     }
 
+    @CacheEvict(allEntries=true)
     public void add(Article bean) {
         articleDAO.save(bean);
     }
 
+    @CacheEvict(allEntries=true)
     public void delete(int id) {
         articleDAO.delete(id);
     }
+
+    @Cacheable(key="'articles-one-'+ #p0")
     public Article get(int id) {
         Article c= articleDAO.findOne(id);
         return c;
     }
+
+    @CacheEvict(allEntries=true)
     public void update(Article bean) {
         articleDAO.save(bean);
     }
@@ -116,11 +130,17 @@ public class ArticleService  {
             fill(category);
         }
     }
-    public void fill(Category category) {
-        List<Article> articles = listByCategory(category);
-        articleImgService.setFirstArticleImgs(articles);
-        category.setArticles(articles);
-    }
+//    public void fill(Category category) {
+//        List<Article> articles = listByCategory(category);
+//        articleImgService.setFirstArticleImgs(articles);
+//        category.setArticles(articles);
+//    }
+public void fill(Category category) {
+        ArticleService articleService = SpringContextUtil.getBean(ArticleService.class);
+    List<Article> articles = articleService.listByCategory(category);
+    articleImgService.setFirstArticleImgs(articles);
+    category.setArticles(articles);
+}
 
     public void fillByRow(List<Category> categorys) {
         int articleNumberEachRow = 8;
@@ -137,6 +157,7 @@ public class ArticleService  {
         }
     }
 
+    @Cacheable(key="'articles-cid-'+ #p0.id")
     public List<Article> listByCategory(Category category){
         return articleDAO.findByCategoryOrderById(category);
     }

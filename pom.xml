@@ -13,6 +13,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>blog</name>
     <description>Demo project for Spring Boot</description>
+    <packaging>jar</packaging>  		  <!--打包方式jar/war-->
 
     <properties>
         <java.version>1.8</java.version>
@@ -96,12 +97,12 @@
             <version>5.1.21</version>
         </dependency>
 
-        <!-- junit -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version> 4.12</version>
-        </dependency>
+<!--        &lt;!&ndash; junit &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>junit</groupId>-->
+<!--            <artifactId>junit</artifactId>-->
+<!--            <version> 4.12</version>-->
+<!--        </dependency>-->
         <!-- commons-lang -->
         <dependency>
             <groupId>commons-lang</groupId>
@@ -149,22 +150,28 @@
             <artifactId>kaptcha</artifactId>
             <version>2.3.2</version>
         </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <version>5.1.9.RELEASE</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <version>5.1.9.RELEASE</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-test</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.springframework</groupId>-->
+<!--            <artifactId>spring-test</artifactId>-->
+<!--            <version>1.5.9.RELEASE</version>-->
+<!--            <scope>compile</scope>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework</groupId>-->
+<!--            <artifactId>spring-test</artifactId>-->
+<!--            <version>5.1.9.RELEASE</version>-->
+<!--            <scope>compile</scope>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-test</artifactId>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-test</artifactId>-->
+<!--            <version>1.5.9.RELEASE</version>-->
+<!--            <scope>test</scope>-->
+<!--        </dependency>-->
 
 
     </dependencies>
@@ -173,7 +180,51 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-war-plugin</artifactId>
+            <configuration>
+                <failOnMissingWebXml>false</failOnMissingWebXml>
+            </configuration>
             </plugin>
         </plugins>
+        <resources>
+<!--         打包时将jsp文件拷贝到META-INF目录下-->
+        <resource>
+            <!-- 指定resources插件处理哪个目录下的资源文件 -->
+            <directory>src/main/webapp</directory>
+            <!--注意此次必须要放在此目录下才能被访问到-->
+            <targetPath>META-INF/resources</targetPath>
+            <includes>
+                <include>**/**</include>
+            </includes>
+        </resource>
+        <resource>
+            <directory>src/main/resources</directory>
+            <includes>
+                <include>**/**</include>
+            </includes>
+            <filtering>false</filtering>
+        </resource>
+        </resources>
     </build>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>1.5.9.RELEASE</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 </project>

@@ -5,6 +5,9 @@ import com.muggle.blog.pojo.Article;
 import com.muggle.blog.pojo.Review;
 import com.muggle.blog.util.Page4Navigator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -14,11 +17,13 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@CacheConfig(cacheNames="reviews")
 public class ReviewService {
     @Autowired
     ReviewDAO reviewDAO;
     @Autowired ArticleService articleService;
 
+    @Cacheable(key="'reviews-aid-'+#p0+'-page-'+#p1 + '-' + #p2 ")
     public Page4Navigator<Review> list(int aid, int start, int size, int navigatePages) {
         Article article = articleService.get(aid);
         Sort sort = new Sort(Sort.Direction.DESC, "id");
@@ -28,27 +33,32 @@ public class ReviewService {
         return new Page4Navigator<>(pageFromJPA, navigatePages);
     }
 
-
+    @Cacheable(key="'reviews-one'+ #p0")
     public Review get(int id) {
         return reviewDAO.findOne(id);
     }
 
+    @CacheEvict(allEntries=true)
     public void update(Review bean) {
         reviewDAO.save(bean);
     }
 
+    @CacheEvict(allEntries=true)
     public void add(Review bean) {
         reviewDAO.save(bean);
     }
 
+    @CacheEvict(allEntries=true)
     public void delete(int id) {
         reviewDAO.delete(id);
     }
 
+    @Cacheable(key="'reviews-aid-'+#p0")
     public List<Review> list(Article article){
         List<Review> result =  reviewDAO.findByArticleOrderByIdDesc(article);
         return result;
     }
+    @Cacheable(key="'reviews'")
     public List<Review> list() {
         Sort sort = new Sort(Sort.Direction.DESC, "id");
         return reviewDAO.findAll(sort);

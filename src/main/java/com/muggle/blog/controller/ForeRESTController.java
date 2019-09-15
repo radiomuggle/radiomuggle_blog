@@ -121,6 +121,12 @@ public Object category(@PathVariable("cid") int cid,String sort) {
         return reviewService.list().size();
     }
 
+    /**
+     * 暂时取消了注册功能
+     * @param user
+     * @param session
+     * @return
+     */
     @PostMapping("/fore_register")
     public Object register(@RequestBody User user, HttpSession session) {
         String inputImageCode = user.getInputImageCode();
@@ -153,7 +159,7 @@ public Object category(@PathVariable("cid") int cid,String sort) {
             user.setSalt(salt);
             user.setPassword(encodedPassword);
 
-            userService.add(user);
+//            userService.add(user);
 
             return Result.success();
         }

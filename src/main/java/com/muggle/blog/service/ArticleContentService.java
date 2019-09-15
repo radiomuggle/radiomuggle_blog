@@ -5,11 +5,15 @@ import com.muggle.blog.pojo.Article;
 import com.muggle.blog.pojo.ArticleContent;
 import com.muggle.blog.util.Markdown2HtmlUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 
 @Service
+@CacheConfig(cacheNames="articleContents")
 public class ArticleContentService {
     @Autowired
     ArticleContentDAO articleContentDAO;
@@ -23,18 +27,17 @@ public class ArticleContentService {
     ReviewService reviewService;
 
     public void init(Article article) {
-
         ArticleContent articleContent = getByArticle(article);
-            if(null==articleContent){
-                articleContent = new ArticleContent();
-                articleContent.setArticle(article);
-
-                articleContent.setContent("默认内容");
-                articleContent.setModify_time(new Date());
-                articleContentDAO.save(articleContent);
-            }
+        if(null==articleContent){
+            articleContent = new ArticleContent();
+            articleContent.setArticle(article);
+            articleContent.setContent("默认内容");
+            articleContent.setModify_time(new Date());
+            articleContentDAO.save(articleContent);
         }
+    }
 
+    @CachePut(key="'articleContent-one-'+ #p0")
     public void add(Article article) {
         ArticleContent articleContent = new ArticleContent();
         articleContent.setArticle(article);
@@ -43,10 +46,12 @@ public class ArticleContentService {
         articleContentDAO.save(articleContent);
     }
 
+    @CachePut(key="'articleContent-one-'+ #p0")
     public void update(ArticleContent bean) {
         articleContentDAO.save(bean);
     }
 
+    @Cacheable(key="'articleContent-aid'+ #p0.id")
     public ArticleContent getByArticle(Article article) {
         return articleContentDAO.getByArticle(article);
     }

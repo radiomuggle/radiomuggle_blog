@@ -55,6 +55,7 @@
                         var url = "all_article_count";
                         axios.get(url).then(function(response) {
                             vue.all_article_count= response.data;
+                            console.log(vue.all_article_count);
                         });
                         url = "all_view_count";
                         axios.get(url).then(function(response) {

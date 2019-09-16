@@ -175,6 +175,7 @@ html,body{
 	border-radius:10px;
 }
 
+
 .text-learnmore{
 	position:absolute;
 	z-index:1;
@@ -185,7 +186,7 @@ html,body{
 	line-height:45px;
 	height:45px;
 	color:#FFF;
-    font-family: 'open_sanssemibold';
+    /*font-family: 'open_sanssemibold';*/
 	width:80%;
 	margin-left:10%;
 }
@@ -231,7 +232,7 @@ html,body{
 	font-size:17px;
 	line-height:150%;
 	color:#666;
-	font-family: 'open_sanssemibold';
+	/*font-family: 'open_sanssemibold';*/
 	letter-spacing:-1px;
 	padding-bottom:10px;
 	height:auto;
@@ -257,7 +258,7 @@ html,body{
 	font-size:17px;
 	line-height:150%;
 	color:#666;
-    font-family: 'open_sanssemibold';
+    /*font-family: 'open_sanssemibold';*/
 	letter-spacing:-1px;
 	padding-bottom:10px;
 	height:auto;

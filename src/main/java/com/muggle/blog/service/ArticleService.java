@@ -1,12 +1,16 @@
 package com.muggle.blog.service;
 
 import com.muggle.blog.dao.ArticleDAO;
+import com.muggle.blog.es.ArticleESDAO;
 import com.muggle.blog.pojo.Article;
 import com.muggle.blog.pojo.ArticleContent;
 import com.muggle.blog.pojo.Category;
 import com.muggle.blog.pojo.Review;
 import com.muggle.blog.util.Page4Navigator;
 import com.muggle.blog.util.SpringContextUtil;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.functionscore.FunctionScoreQueryBuilder;
+import org.elasticsearch.index.query.functionscore.ScoreFunctionBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
@@ -15,6 +19,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
+import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -26,6 +32,8 @@ public class ArticleService  {
 
     @Autowired
     ArticleDAO articleDAO;
+    @Autowired
+    ArticleESDAO articleESDAO;
     @Autowired ReviewService reviewService;
     @Autowired PageviewService pageviewService;
     @Autowired CategoryService categoryService;
@@ -89,11 +97,13 @@ public class ArticleService  {
     @CacheEvict(allEntries=true)
     public void add(Article bean) {
         articleDAO.save(bean);
+        articleESDAO.save(bean);
     }
 
     @CacheEvict(allEntries=true)
     public void delete(int id) {
         articleDAO.delete(id);
+        articleESDAO.delete(id);
     }
 
     @Cacheable(key="'articles-one-'+ #p0")
@@ -105,6 +115,7 @@ public class ArticleService  {
     @CacheEvict(allEntries=true)
     public void update(Article bean) {
         articleDAO.save(bean);
+        articleESDAO.save(bean);
     }
 
     public int getArticleCount(Category category) {
@@ -178,6 +189,33 @@ public void fill(Category category) {
     public int getCountByCategory(Category category) {
 
         return articleDAO.countByCategory(category);
+    }
+
+    private void initDatabase2ES(){
+        Pageable pageable = new PageRequest(0, 5);
+        Page<Article> page = articleESDAO.findAll(pageable);
+        if(page.getContent().isEmpty()){
+            List<Article> articles = articleDAO.findAll();
+            for (Article article : articles) {
+                articleESDAO.save(article);
+            }
+        }
+    }
+
+    public List<Article> search(String keyword, int start, int size) {
+        initDatabase2ES();
+        FunctionScoreQueryBuilder functionScoreQueryBuilder = QueryBuilders.functionScoreQuery()
+                .add(QueryBuilders.matchPhraseQuery("name", keyword),
+                        ScoreFunctionBuilders.weightFactorFunction(100))
+                .scoreMode("sum")
+                .setMinScore(10);
+        Sort sort  = new Sort(Sort.Direction.DESC,"id");
+        Pageable pageable = new PageRequest(start, size,sort);
+        SearchQuery searchQuery = new NativeSearchQueryBuilder()
+                .withPageable(pageable)
+                .withQuery(functionScoreQueryBuilder).build();
+        Page<Article> page = articleESDAO.search(searchQuery);
+        return page.getContent();
     }
 
 

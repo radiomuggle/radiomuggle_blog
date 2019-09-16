@@ -121,8 +121,17 @@ public Object category(@PathVariable("cid") int cid,String sort) {
         return reviewService.list().size();
     }
 
+    @PostMapping("fore_search")
+    public Object search( String keyword){
+        if(null==keyword)
+            keyword = "";
+        List<Article> articles= articleService.search(keyword,0,20);
+        articleImgService.setFirstArticleImgs(articles);
+        articleService.setReviewAndPageviewNumber(articles);
+        return articles;
+    }
     /**
-     * 暂时取消了注册功能
+     * 暂时注释
      * @param user
      * @param session
      * @return

@@ -41,6 +41,7 @@
                         var url = this.uri+"/"+aid;
                         axios.get(url).then(function(response) {
                             vue.article = response.data;
+                            // console.log(vue.article);
                             vue.all_view_count = vue.article.viewCount;
                         })
                     },

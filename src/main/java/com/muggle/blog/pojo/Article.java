@@ -48,6 +48,7 @@ public class Article {
     private ArticleContent articleContent;
     @Transient
     List<Review> reviews;
+
     @Transient
     private String content;
 

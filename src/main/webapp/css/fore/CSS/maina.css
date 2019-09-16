@@ -565,6 +565,7 @@ iframe {
         position:relative;
         width:100%;
         height:620px;
+        /*height:auto;*/
         z-index:1;
         background-color:#FFF;
         padding-bottom:50px;

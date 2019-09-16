@@ -31,6 +31,12 @@ public class ForePageController {
 
         return "fore/article_all";
     }
+
+    @GetMapping(value="/search")
+    public String searchResult(){
+        return "fore/search";
+    }
+
 /**
  * 注册
  */

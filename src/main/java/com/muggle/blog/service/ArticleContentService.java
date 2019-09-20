@@ -6,6 +6,7 @@ import com.muggle.blog.pojo.ArticleContent;
 import com.muggle.blog.util.Markdown2HtmlUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -46,7 +47,7 @@ public class ArticleContentService {
         articleContentDAO.save(articleContent);
     }
 
-    @CachePut(key="'articleContent-one-'+ #p0")
+    @CacheEvict(allEntries=true)
     public void update(ArticleContent bean) {
         articleContentDAO.save(bean);
     }
@@ -64,5 +65,10 @@ public class ArticleContentService {
         article.setReviews(reviewService.list(article));
         article.setReviewCount(reviewService.getCount(article));
         article.setViewCount(pageviewService.getCount(article));
+    }
+
+    @CacheEvict(allEntries=true)
+    public void delete(int id) {
+        articleContentDAO.delete(id);
     }
 }

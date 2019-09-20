@@ -97,12 +97,6 @@
             <version>5.1.21</version>
         </dependency>
 
-<!--        &lt;!&ndash; junit &ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>junit</groupId>-->
-<!--            <artifactId>junit</artifactId>-->
-<!--            <version> 4.12</version>-->
-<!--        </dependency>-->
         <!-- commons-lang -->
         <dependency>
             <groupId>commons-lang</groupId>
@@ -150,7 +144,22 @@
             <artifactId>kaptcha</artifactId>
             <version>2.3.2</version>
         </dependency>
-<!--        <dependency>-->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpcore</artifactId>
+            <version>4.4.11</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.9</version>
+        </dependency>
+        <dependency>
+            <groupId>com.vaadin.external.google</groupId>
+            <artifactId>android-json</artifactId>
+            <version>0.0.20131108.vaadin1</version>
+        </dependency>
+        <!--        <dependency>-->
 <!--            <groupId>org.springframework</groupId>-->
 <!--            <artifactId>spring-test</artifactId>-->
 <!--            <version>1.5.9.RELEASE</version>-->
@@ -161,16 +170,6 @@
 <!--            <artifactId>spring-test</artifactId>-->
 <!--            <version>5.1.9.RELEASE</version>-->
 <!--            <scope>compile</scope>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-test</artifactId>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-test</artifactId>-->
-<!--            <version>1.5.9.RELEASE</version>-->
-<!--            <scope>test</scope>-->
 <!--        </dependency>-->
 
 

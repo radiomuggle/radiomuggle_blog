@@ -11,10 +11,11 @@
 			<div class="sidebar-scroll">
 				<nav>
 					<ul class="nav">
-						<li><a href="admin_index" class=""><i class="lnr lnr-home"></i> <span>首页</span></a></li>
-						<li><a href="admin_article_list" class=""><i class="lnr lnr-pencil"></i> <span>文章管理</span></a></li>
-						<li><a href="admin_category_list" class="active"><i class="lnr lnr-inbox"></i> <span>分类管理</span></a></li>
-						<li><a href="admin_pageview_list" class=""><i class="lnr lnr-users"></i> <span>访问管理</span></a></li>
+						<li><a href="admin_index" class=""> <span>首页</span></a></li>
+						<li><a href="admin_article_list" class=""> <span>文章管理</span></a></li>
+						<li><a href="admin_category_list" class="active"> <span>分类管理</span></a></li>
+						<li><a href="admin_review_list" class=""> <span>评论管理</span></a></li>
+						<li><a href="admin_pageview_list" class=""> <span>访问管理</span></a></li>
 					</ul>
 				</nav>
 			</div>
@@ -25,7 +26,7 @@
 				var data4Vue = {
 					uri:'categories',
 					beans: [],
-					bean: {id: 0, name: '', 'number':0},
+					bean: {id: 0, name: ''},
 					pagination:{}
 				};
 
@@ -47,13 +48,11 @@
 						add: function () {
 							if(!checkEmpty(this.bean.name, "分类名称"))
 								return;
-							if(!checkEmpty(this.bean.number, "数量"))
-								return;
 
 							var url = this.uri;
 							axios.post(url,this.bean).then(function(response){
 								vue.list(0);
-								vue.bean =  {id:0,name:'','number':0};
+								vue.bean =  {id:0,name:''};
 							});
 						},
 						deleteBean: function (id) {
@@ -73,7 +72,7 @@
 							var url = this.uri+"/"+id;
 							axios.get(url).then(function(response) {
 								vue.bean = response.data;
-								console.log(vue.bean);
+								// console.log(vue.bean);
 							})
 						},
 						update: function () {
@@ -102,7 +101,7 @@
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
 				<div class="container-fluid">
-					<h3 class="page-title">分类管理</h3>
+					<a href="admin_index"><h3 class="page-title">分类管理</h3></a>
 					<div class="row">
 						<div class="col-md-12">
 							<!-- TABLE HOVER -->
@@ -206,11 +205,12 @@
 <!--							</table>-->
 <!--						</div>-->
 <!--					</div>-->
-					
+<!--					<div th:replace="include/admin/adminFooter::html" ></div>-->
 				</div>
 
 			</div>
 			<!-- END MAIN CONTENT -->
+			<div th:replace="include/admin/adminFooter::html" ></div>
 		</div>
 
 		<!-- END MAIN -->

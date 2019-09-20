@@ -18,6 +18,7 @@ public class Article {
     int id;
 
     @ManyToOne
+//@ManyToOne(cascade={CascadeType.MERGE,CascadeType.REFRESH},optional=false)
     @JoinColumn(name="cid")
     private Category category;
 
@@ -47,7 +48,11 @@ public class Article {
     @Transient
     private ArticleContent articleContent;
     @Transient
-    List<Review> reviews;
+    private List<Review> reviews;
+    @Transient
+    private List<Pageview> pageviews;
+    @Transient
+    private List<ArticleImg> articleImgs;
 
     @Transient
     private String content;
@@ -147,13 +152,13 @@ public class Article {
                 "id=" + id +
                 ", category=" + category +
                 ", name='" + name + '\'' +
-                ", summary='" + summary + '\'' +
-                ", traffic=" + traffic +
-                ", create_time=" + create_time +
-                ", modify_time=" + modify_time +
                 ", firstArticleImg=" + firstArticleImg +
-                ", reviewCount=" + reviewCount +
-                ", articleContent=" + articleContent +
+                ", articleSingleImages=" + articleSingleImages +
+                ", articleDetailImages=" + articleDetailImages +
+                ", reviews=" + reviews +
+                ", pageviews=" + pageviews +
+                ", articleImgs=" + articleImgs +
+                ", content='" + content + '\'' +
                 '}';
     }
 
@@ -189,4 +194,19 @@ public class Article {
         this.viewCount = viewCount;
     }
 
+    public List<Pageview> getPageviews() {
+        return pageviews;
+    }
+
+    public void setPageviews(List<Pageview> pageviews) {
+        this.pageviews = pageviews;
+    }
+
+    public List<ArticleImg> getArticleImgs() {
+        return articleImgs;
+    }
+
+    public void setArticleImgs(List<ArticleImg> articleImgs) {
+        this.articleImgs = articleImgs;
+    }
 }

@@ -2,7 +2,10 @@ package com.muggle.blog.interceptor;
 
 import com.muggle.blog.pojo.Pageview;
 import com.muggle.blog.service.PageviewService;
+import com.muggle.blog.util.HttpUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.http.HttpResponse;
+import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -11,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ForeInterceptor implements HandlerInterceptor {
     @Autowired
@@ -27,8 +32,6 @@ public class ForeInterceptor implements HandlerInterceptor {
         String[] requireAuthPages = new String[]{
                 "home",
                 "fore_article/",
-//                "fore_category",
-//                "article_all"
 
         };
 
@@ -43,9 +46,18 @@ public class ForeInterceptor implements HandlerInterceptor {
             String ip = getRemortIP(httpServletRequest);
             // 访问地址
             String url = page;
+            String area_ip;
             pageview.setIp(StringUtils.isEmpty(ip) ? "0.0.0.0" : ip);
             pageview.setUrl(StringUtils.isEmpty(url) ? "获取URL失败" : url);
             pageview.setCreate_time(new Date());
+//            if(StringUtils.contains(page, "admin_index")){
+            if(StringUtils.contains(page, "home")){
+                area_ip=getAreaIP(ip);
+            }
+
+            else
+                area_ip="000";
+            pageview.setArea_ip(area_ip);
             pageviewService.add(pageview);
         }
         return true;
@@ -79,6 +91,31 @@ public static String getRemortIP(HttpServletRequest request) {
                      }
                  return request.getRemoteAddr();
              }
+
+    public static String getAreaIP(String remort_ip) {
+        String host = "https://api01.aliyun.venuscn.com";
+        String path = "/ip";
+        String method = "GET";
+        String appcode = "自己的appcode";
+        Map<String, String> headers = new HashMap<String, String>();
+        headers.put("Authorization", "APPCODE " + appcode);
+        Map<String, String> querys = new HashMap<String, String>();
+        querys.put("ip", remort_ip);
+
+        try {
+            HttpResponse response = HttpUtils.doGet(host, path, method, headers, querys);
+            System.out.println(response.toString());
+            //获取response的body
+
+            String areaip = EntityUtils.toString(response.getEntity());
+            System.out.println(areaip);
+            return areaip;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     @Override
     public void postHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, ModelAndView modelAndView) throws Exception {

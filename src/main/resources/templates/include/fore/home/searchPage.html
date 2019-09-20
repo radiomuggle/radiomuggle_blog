@@ -28,7 +28,7 @@
                         var url =  this.uri+"?keyword="+keyword;
                         axios.post(url).then(function(response) {
                             vue.articles = response.data;
-                            console.log(vue.articles);
+                            // console.log(vue.articles);
                             vue.$nextTick(function(){
                                 linkDefaultActions();
                             })

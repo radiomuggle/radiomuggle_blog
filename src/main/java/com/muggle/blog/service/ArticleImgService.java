@@ -6,7 +6,6 @@ import com.muggle.blog.pojo.ArticleImg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -23,15 +22,15 @@ public class ArticleImgService   {
     ArticleImgDAO articleImgDAO;
     @Autowired ArticleService articleService;
 
-//    @CacheEvict(allEntries=true)
-    @CachePut(key="'articleImg-one-'+ #p0")
+    @CacheEvict(allEntries=true)
+//    @CachePut(key="'articleImg-one-'+ #p0")
     public void add(ArticleImg bean) {
         articleImgDAO.save(bean);
 
     }
 
-//    @CacheEvict(allEntries=true)
-    @CacheEvict(key="'articleImg-one-'+ #p0")
+    @CacheEvict(allEntries=true)
+//    @CacheEvict(key="'articleImg-one-'+ #p0")
     public void delete(int id) {
         articleImgDAO.delete(id);
     }

@@ -11,10 +11,11 @@
 		<div class="sidebar-scroll">
 			<nav>
 				<ul class="nav">
-					<li><a href="admin_index" class=""><i class="lnr lnr-home"></i> <span>首页</span></a></li>
-					<li><a href="admin_article_list" class="active"><i class="lnr lnr-pencil"></i> <span>文章管理</span></a></li>
-					<li><a href="admin_category_list" class=""><i class="lnr lnr-inbox"></i> <span>分类管理</span></a></li>
-					<li><a href="admin_pageview_list" class=""><i class="lnr lnr-users"></i> <span>访问管理</span></a></li>
+					<li><a href="admin_index" class=""> <span>首页</span></a></li>
+					<li><a href="admin_article_list" class="active"> <span>文章管理</span></a></li>
+					<li><a href="admin_category_list" class=""> <span>分类管理</span></a></li>
+					<li><a href="admin_review_list" class=""> <span>评论管理</span></a></li>
+					<li><a href="admin_pageview_list" class=""> <span>访问管理</span></a></li>
 				</ul>
 			</nav>
 		</div>
@@ -27,7 +28,8 @@
 				uri:'articles',
 				listURL:'admin_article_list',
 				beans: [],
-				bean: {id: 0, name: '','summary':'','traffic':0,category:{'id':0}},
+				// bean: {id: 0, name: '','summary':'','traffic':0,category:{'id':0}},
+				bean: {id: 0, name: '','summary':'','traffic':0,category:{'id':0},'content':''},
 				pagination:{},
 				category:'',
 				categories: [],
@@ -69,7 +71,7 @@
 						// console.log(vue.bean);
 						axios.post(url,this.bean).then(function(response){
 							vue.list(0);
-							vue.bean =  {id: 0, name: '', 'summary':'','traffic':0,category:{'id':0}};
+							// vue.bean =  {id: 0, name: '', 'summary':'','traffic':0,category:{'id':0}};
 						});
 					},
 					deleteBean: function (id) {
@@ -84,12 +86,12 @@
 						});
 					},
 					editBean: function (id) {
-						console.log(id);
 						var url = this.uri+"/"+id;
 						axios.get(url).then(function(response) {
 							vue.bean = response.data;
+							vue.editarticle = response.data;
+							// console.log(vue.bean);
 						});
-						console.log(vue.bean);
 					},
 					update: function () {
 						if(!checkEmpty(this.bean.name, "文章名称"))
@@ -99,7 +101,7 @@
 						if (!checkEmpty(this.bean.category.id, "分类"))
 							return;
 						var url = this.uri;
-						console.log(vue.bean);
+						// console.log(vue.bean);
 						axios.put(url,vue.bean).then(function(response){
 							// location.href=vue.listURL;
 							vue.list(0);
@@ -122,7 +124,7 @@
 		<!-- MAIN CONTENT -->
 		<div class="main-content">
 			<div class="container-fluid">
-				<h3 class="page-title">文章管理</h3>
+				<a href="admin_index"><h3 class="page-title">文章管理</h3></a>
 				<div class="row">
 					<div class="col-md-12">
 						<!-- TABLE HOVER -->
@@ -156,7 +158,8 @@
 										<td>{{bean.name}}</td>
 										<td>{{bean.summary}}</td>
 										<td>{{bean.viewCount}}</td>
-										<td>{{bean.category.name}}</td>
+										<td v-if="bean.category">{{bean.category.name}}</td>
+										<td v-if="bean.category==null">【无】</td>
 										<td>
 											<img v-if="null != bean.firstArticleImg" width="40px" :src="'img/articleSingle/'+bean.firstArticleImg.id+'.jpg'">	</td>
 										<td>
@@ -271,7 +274,7 @@
 
 								<tr>
 									<p class="edit_form">文章标题</p>
-									<td><input  @keyup.enter="update" v-model.trim="bean.name" type="text" class="form-control"></td>
+									<td><input  @keyup.enter.native="update" v-model.trim="bean.name" type="text" class="form-control"></td>
 								</tr>
 								<tr>
 									<p class="edit_form">概述</p>
@@ -287,7 +290,7 @@
 									</select>
 								</tr>
 								<p class="edit_form">文章内容</p>
-								<textarea class="form-control" style="height: 150px" @keyup.enter="update" v-model.trim="bean.content"></textarea>
+								<textarea class="form-control" style="height: 150px"  v-model.trim="bean.content"></textarea>
 
 							</div>
 							<div class="modal-footer">

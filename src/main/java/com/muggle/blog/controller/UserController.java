@@ -54,7 +54,7 @@ public class UserController {
 public Object login(@RequestBody User userParam, HttpSession session) {
     String inputImageCode = userParam.getInputImageCode();
     String captchaId = (String) session.getAttribute("verifyCode");
-    System.out.println("验证码是：" + captchaId);
+//    System.out.println("验证码是：" + captchaId);
     System.out.println("用户输入的是：" + inputImageCode);
     if (!captchaId.equals(inputImageCode)) {
         System.out.println("输入错误");

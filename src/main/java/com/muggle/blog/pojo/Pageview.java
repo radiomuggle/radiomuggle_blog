@@ -24,6 +24,11 @@ public class Pageview {
 
     private String url;
 
+    private String area_ip;
+
+    @Transient
+    private String show_ip;
+
     public int getId() {
         return id;
     }
@@ -64,6 +69,22 @@ public class Pageview {
         this.article = article;
     }
 
+    public String getArea_ip() {
+        return area_ip;
+    }
+
+    public void setArea_ip(String area_ip) {
+        this.area_ip = area_ip;
+    }
+
+    public String getShow_ip() {
+        return show_ip;
+    }
+
+    public void setShow_ip(String show_ip) {
+        this.show_ip = show_ip;
+    }
+
     @Override
     public String toString() {
         return "Pageview{" +
@@ -72,6 +93,7 @@ public class Pageview {
                 ", create_time=" + create_time +
                 ", ip='" + ip + '\'' +
                 ", url='" + url + '\'' +
+                ", area_ip='" + area_ip + '\'' +
                 '}';
     }
 }

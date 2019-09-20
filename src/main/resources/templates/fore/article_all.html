@@ -29,7 +29,7 @@
     <div id="A2">
         <div v-show="showTitle">
             <div id="text-2" >
-                <a  @click="toggle2Categories">所有文章</a>
+                <a  @click="toggle2Categories" :title="'查看分类列表'">所有文章</a>
             </div>
         </div>
         <div v-show="showCategories">
@@ -47,7 +47,6 @@
                         <div><a :href="'fore_category?cid='+c.id">{{c.name}}</a></div>
                     </li>
                 </ul>
-                <!--		<div id="A2-date-1">We'va found {{category.number}} articles published</div>-->
             </div>
         </div>
     </div>
@@ -73,80 +72,8 @@
                 <div id="A3-left-text-1">{{a.summary}}</div>
             </div>
 
-            <!--		<div id="wrapper-post2" class="text-part-A5">-->
-            <!--			<a href="spore-post3.html"><div id="A3-left-image-2"><img src="IMG/image6-01.jpg"  alt="Auto-resized image" title="Auto-resized image" class="grow"/></div></a>-->
-
-            <!--			<div id="wrapper-A3-left-date-2">-->
-            <!--				<div id="A3-left-date-2">20 nov, 2016</div>-->
-            <!--				<div id="A3-left-icone-2"></div>-->
-            <!--			</div>-->
-            <!--			<ul>-->
-            <!--				<li><div id="A3-left-title-2"><a href="spore-post3.html">Auto-resized image</a></div></li>-->
-            <!--			</ul>-->
-            <!--			<div id="A3-left-text-2">啦啦啦啦啦</div>-->
-            <!--		</div>-->
-
         </div>
 
-        <!--	<div id="A3-middle">-->
-
-        <!--		<div id="wrapper-post3" class="text-part-A5">-->
-        <!--			<a href="spore-post4.html"><div id="A3-middle-image-3"><img src="IMG/image3-01.jpg"  alt="Another post" title="Another post" class="grow"/></div></a>-->
-
-        <!--			<div id="wrapper-A3-middle-date-3">-->
-        <!--				<div id="A3-middle-date-3">19 nov, 2016</div>-->
-        <!--				<div id="A3-middle-icone-3"></div>-->
-        <!--			</div>-->
-        <!--			<ul>-->
-        <!--				<li><div id="A3-middle-title-3"><a href="spore-post4.html">Another post</a></div></li>-->
-        <!--			</ul>-->
-        <!--			<div id="A3-middle-text-3">啦啦啦啦啦啦啦啦啦啦啦</div>-->
-        <!--		</div>-->
-
-        <!--		<div id="wrapper-post4" class="text-part-A5">-->
-        <!--			<a href="spore-post5.html"><div id="A3-middle-image-4"><img src="IMG/image4-01.jpg"  alt="Another post" title="Another post" class="grayscale" /></div></a>-->
-
-        <!--			<div id="wrapper-A3-middle-date-4">-->
-        <!--				<div id="A3-middle-date-4">18 nov, 2016</div>-->
-        <!--				<div id="A3-middle-icone-4"></div>-->
-        <!--			</div>-->
-        <!--			<ul>-->
-        <!--				<li><div id="A3-middle-title-4"><a href="spore-post5.html">Another post</a></div></li>-->
-        <!--			</ul>-->
-        <!--			<div id="A3-middle-text-4">啦啦啦啦啦啦啦啦啦啦啦</div>-->
-        <!--		</div>-->
-
-        <!--	</div>-->
-
-        <!--	<div id="A3-right">-->
-
-        <!--		<div id="wrapper-post5" class="text-part-A5">-->
-        <!--			<a href="spore-post8.html"><div id="A3-right-image-5"><img src="IMG/image5-01.jpg"  alt="Post with transition image" title="Post with transition image" class="grow" /></div></a>-->
-
-        <!--			<div id="wrapper-A3-right-date-5">-->
-        <!--				<div id="A3-right-date-5">15 nov, 2016</div>-->
-        <!--				<div id="A3-right-icone-5"></div>-->
-        <!--			</div>-->
-        <!--			<ul>-->
-        <!--				<li><div id="A3-right-title-5"><a href="spore-post8.html">Post with transition image</a></div></li>-->
-        <!--			</ul>-->
-        <!--			<div id="A3-right-text-5">啦啦啦啦啦啦啦啦啦啦啦</div>-->
-        <!--		</div>-->
-
-        <!--		<div id="wrapper-post6" class="text-part-A5">-->
-        <!--			<a href="spore-post9.html"><div id="A3-right-image-5"><img src="IMG/image2-01.jpg"  alt="Another post" title="Another post" class="grow"/></div></a>-->
-
-        <!--			<div id="wrapper-A3-right-date-6">-->
-        <!--				<div id="A3-right-date-6">14 nov, 2016</div>-->
-        <!--				<div id="A3-right-icone-6"></div>-->
-        <!--			</div>-->
-        <!--			<ul>-->
-        <!--				<li><div id="A3-right-title-6"><a href="spore-post9.html">Another post</a></div></li>-->
-        <!--			</ul>-->
-        <!--			<div id="A3-right-text-6">啦啦啦啦啦啦啦啦啦啦啦</div>-->
-        <!--		</div>-->
-
-        <!--	</div>-->
         <div class="calage"></div>
     </div>
 
@@ -160,8 +87,8 @@
             <div id="line2-A4"></div>
 
             <ul>
-                <li :class="{ disabled: !pagination.hasPrevious }"><div id="A4-nextpage-1"><a  href="#nowhere" @click="jump('pre')">&#171;&nbsp;&nbsp;Previous page</a></div></li>
-                <li :class="{ disabled: !pagination.hasNext }"><div id="A4-nextpage-2"><a  href="#nowhere" @click="jump('next')">Next page&nbsp;&nbsp;&#187;</a></div></li>
+                <li :class="{ disabled: !pagination.hasPrevious }"><div id="A4-nextpage-1"><a  href="#nowhere" @click="jump('pre')">&#171;&nbsp;&nbsp;上一页</a></div></li>
+                <li :class="{ disabled: !pagination.hasNext }"><div id="A4-nextpage-2"><a  href="#nowhere" @click="jump('next')">下一页&nbsp;&nbsp;&#187;</a></div></li>
             </ul>
 
         </div>

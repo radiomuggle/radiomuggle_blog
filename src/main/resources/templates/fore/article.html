@@ -33,8 +33,17 @@
 
         <div id="wrapper-A2-date-1">
 
-			<div id="A2-date-1" v-show="showCreate_time"><a  href="#write" style="color:#CCC;" @click="toggle2Modify">发布于 {{article.create_time |formatDateFilter('YYYY-MM-DD')}}</a></div>
-			<div id="A2-date-1" v-show="showModify_time"><a  href="#write" style="color:#CCC;" @click="toggle2Create">编辑于 {{article.modify_time |formatDateFilter('YYYY-MM-DD')}}</a></div>
+			<div id="A2-date-1" v-show="showCreate_time" v-if="article.category">
+				<a  :href="'fore_category?cid='+article.category.id" style="color:#CCC;" title="去往分类">分类： {{article.category.name}}</a>
+				<br>
+				<a  href="#write" style="color:#CCC;" @click="toggle2Modify" title="查看编辑时间">发布于 {{article.create_time |formatDateFilter('YYYY-MM-DD')}}</a>
+
+			</div>
+			<div id="A2-date-1" v-show="showModify_time" v-if="article.category">
+				<a  :href="'fore_category?cid='+article.category.id" style="color:#CCC;" title="去往分类">分类： {{article.category.name}}</a>
+				<br>
+				<a  href="#write" style="color:#CCC;" @click="toggle2Create" title="查看发布时间">编辑于 {{article.modify_time |formatDateFilter('YYYY-MM-DD')}}</a>
+			</div>
 <!--                <div id="A2-icone-1"></div>-->
 <!--                <div id="A2-icone-eye-1"></div>-->
         </div>
@@ -47,7 +56,7 @@
 <!--			<div id="A3-image" v-if="article.firstArticleImg"><img :src="'img/articleSingle_middle/'+article.firstArticleImg.id+'.jpg'"  alt="post an image with animation" :title="article.name" /></div>-->
 <!--        </div>-->
 
-        <div id="A3-top-2" class="wow fadeInY" data-wow-offset="10">
+        <div id="A3-top-2" class="wow fadeInY" data-wow-offset="10" >
 <!--			<div id="A3-text-1" v-if="article.articleContent"> {{article.articleContent.content}}</div>-->
 			<div id="A3-text-1" v-if="article.articleContent" v-html="article.articleContent.content"> </div>
 <!--			<div>v-html="article.articleContent.content"</div>-->

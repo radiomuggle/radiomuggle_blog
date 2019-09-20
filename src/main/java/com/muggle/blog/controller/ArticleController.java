@@ -43,22 +43,6 @@ public class ArticleController {
         start = start<0?0:start;
         Page4Navigator<Article> page = articleService.listByCategory(cid, start, size, 5);
         articleImgService.setFirstArticleImgs(page.getContent());
-//        System.out.println("sort1: "+sort);
-//        if(null!=sort) {
-//            System.out.println("sort: "+sort);
-//            switch (sort) {
-//
-//                case "review":
-//                    Collections.sort(page.getContent(), new ArticleReviewComparator());
-//                    break;
-//                case "date":
-//                    Collections.sort(page.getContent(), new ArticleDateComparator());
-//                    break;
-//                case "pageview":
-//                    Collections.sort(page.getContent(), new ArticlePageviewComparator());
-//                    break;
-//            }
-//        }
         return page;
     }
 
@@ -82,8 +66,6 @@ public class ArticleController {
     public Article get(@PathVariable("id") int id) throws Exception {
         Article bean=articleService.get(id);
         bean.setContent(articleContentService.getByArticle(bean).getContent());
-//        System.out.println(bean);
-//        articleService.setReviewAndPageviewNumber(bean);
         return bean;
     }
 

@@ -51,11 +51,11 @@
                         var url = this.uri+"/"+cid+"?sort="+sort;
                         axios.get(url).then(function(response) {
                             vue.category = response.data;
-                            console.log(vue.category);
+                            // console.log(vue.category);
                             vue.all_article_count=vue.category.articleCount;
-                            console.log(sort);
+                            // console.log(sort);
                             vue.sort = sort;
-                            console.log("vue.sort: "+vue.sort);
+                            // console.log("vue.sort: "+vue.sort);
                         })
                     },
                     listArticles:function(start){
@@ -66,7 +66,7 @@
                         axios.get(url).then(function(response) {
                             vue.pagination = response.data;
                             vue.articles = response.data.content;
-                            console.log(vue.articles);
+                            // console.log(vue.articles);
                         });
 
                     },

@@ -53,6 +53,12 @@ public class AdminPageController {
 
     }
 
+    @GetMapping(value="/admin_review_list")
+    public String listReview(){
+        return "admin/listReview";
+
+    }
+
     @GetMapping(value="/admin_pageview_list")
     public String listPageview(){
         return "admin/listPageview";

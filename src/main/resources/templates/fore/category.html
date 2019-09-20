@@ -13,7 +13,6 @@
 
 	<div id="wrapper-logo" class="object">
 		<a href="home"><div id="logo" class="shadow object" ><img src="img/fore/logotop.svg" width="169" height="45"/></div></a>
-<!--		<a href="home"><div id="logo" class="shadow object"></div></a>-->
 	</div>
 
 	<div id="A1">
@@ -28,25 +27,10 @@
 
 <div id="workingArea">
 <div id="A2">
-<!--	<div id="text-2">-->
-<!--			<button type="button" class="btn dropdown-toggle"  data-toggle="dropdown" >-->
-<!--				{{category.name}}-->
-<!--				<span class="caret"></span>-->
-<!--			</button>-->
-<!--	</div>-->
-<!--	<div >-->
-<!--			<ul class="dropdown-menu">-->
-<!--				<li v-for="c in categories" >-->
-<!--					<a :href="'fore_category?cid='+c.id">{{c.name}}</a>-->
-<!--				</li>-->
-<!--			</ul>-->
-<!--	</div>-->
-<!--			<div style="height:100px"></div>-->
-
 
 <div v-show="showTitle">
 	<div id="text-2" >
-		<a  @click="toggle2Categories">{{category.name}}</a>
+		<a  @click="toggle2Categories" :title="'查看分类列表'">{{category.name}}</a>
 		<div v-if="articles.length==0" style="font-size:20px;color:#CCC;" > 此分类暂时没有文章</div>
 		<div v-if="articles.length!=0" style="font-size:10px;text-align:center;" >
 
@@ -56,18 +40,11 @@
 					<a :href="'?cid='+category.id+'&sort=review'" :class="{'grayColumn':(sort=='review')}">评论量<span class="glyphicon glyphicon-arrow-down"></span></a>
 					<a :href="'?cid='+category.id+'&sort=pageview'" :class="{'grayColumn':(sort=='pageview')}">浏览量<span class="glyphicon glyphicon-arrow-down"></span></a>
 
-<!--					<td :class="{'grayColumn':(sort==null||sort=='date')}"><a :href="'?cid='+category.id+'&sort=date'">最近<span class="glyphicon glyphicon-arrow-down"></span></a></td>-->
-<!--					<td :class="{'grayColumn':(sort==null||sort=='review')}"><a :href="'?cid='+category.id+'&sort=review'">评论量<span class="glyphicon glyphicon-arrow-down"></span></a></td>-->
-<!--					<td :class="{'grayColumn':(sort==null||sort=='pageview')}"><a :href="'?cid='+category.id+'&sort=pageview'">浏览量<span class="glyphicon glyphicon-arrow-down"></span></a></td>-->
-<!--					<td :class="{'grayColumn':(sort==null||sort=='create_time')}"><a :href="'?cid='+category.id+'&sort=create_time'">最近<span class="glyphicon glyphicon-arrow-down"></span></a></td>-->
-<!--					<td :class="{'grayColumn':(sort==null||sort=='reviewCount')}"><a :href="'?cid='+category.id+'&sort=reviewCount'">评论量<span class="glyphicon glyphicon-arrow-down"></span></a></td>-->
-<!--					<td :class="{'grayColumn':(sort==null||sort=='viewCount')}"><a :href="'?cid='+category.id+'&sort=viewCount'">浏览量<span class="glyphicon glyphicon-arrow-down"></span></a></td>-->
 <!--				</tr>-->
 <!--			</table>-->
 
 		</div>
 	</div>
-<!--	<div id="text-2b" v-if="articles.length==0"> 此分类暂时没有文章</div>-->
 </div>
 <div v-show="showCategories">
 	<div id="text-3" >

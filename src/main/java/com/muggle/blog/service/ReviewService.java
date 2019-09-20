@@ -2,6 +2,7 @@ package com.muggle.blog.service;
 
 import com.muggle.blog.dao.ReviewDAO;
 import com.muggle.blog.pojo.Article;
+import com.muggle.blog.pojo.Pageview;
 import com.muggle.blog.pojo.Review;
 import com.muggle.blog.util.Page4Navigator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,15 @@ public class ReviewService {
         return new Page4Navigator<>(pageFromJPA, navigatePages);
     }
 
+    @Cacheable(key="'reviews-page-'+#p0+'-'+#p1")
+    public Page4Navigator<Pageview> list(int start, int size, int navigatePages) {
+        Sort sort = new Sort(Sort.Direction.DESC, "id");
+        Pageable pageable = new PageRequest(start, size,sort);
+        Page pageFromJPA =reviewDAO.findAll(pageable);
+
+        return new Page4Navigator<>(pageFromJPA,navigatePages);
+    }
+
     @Cacheable(key="'reviews-one'+ #p0")
     public Review get(int id) {
         return reviewDAO.findOne(id);
@@ -53,7 +63,7 @@ public class ReviewService {
         reviewDAO.delete(id);
     }
 
-    @Cacheable(key="'reviews-aid-'+#p0")
+    @Cacheable(key="'reviews-aid-'+#p0.id")
     public List<Review> list(Article article){
         List<Review> result =  reviewDAO.findByArticleOrderByIdDesc(article);
         return result;

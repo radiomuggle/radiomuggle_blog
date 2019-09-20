@@ -56,6 +56,12 @@ public class PageviewService {
         return pageviewDAO.findAll(sort);
     }
 
+    @Cacheable(key="'pageviews-aid-'+#p0.id")
+    public List<Pageview> list(Article article){
+        List<Pageview> result =  pageviewDAO.findByArticleOrderByIdDesc(article);
+        return result;
+    }
+
     @CacheEvict(allEntries=true)
     public void delete(int id) {
         pageviewDAO.delete(id);

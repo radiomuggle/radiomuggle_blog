@@ -2,10 +2,7 @@ package com.muggle.blog.service;
 
 import com.muggle.blog.dao.ArticleDAO;
 import com.muggle.blog.es.ArticleESDAO;
-import com.muggle.blog.pojo.Article;
-import com.muggle.blog.pojo.ArticleContent;
-import com.muggle.blog.pojo.Category;
-import com.muggle.blog.pojo.Review;
+import com.muggle.blog.pojo.*;
 import com.muggle.blog.util.Page4Navigator;
 import com.muggle.blog.util.SpringContextUtil;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -23,7 +20,6 @@ import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilde
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -38,6 +34,7 @@ public class ArticleService  {
     @Autowired PageviewService pageviewService;
     @Autowired CategoryService categoryService;
     @Autowired ArticleImgService articleImgService;
+    @Autowired ArticleContentService articleContentService;
 
     @Cacheable(key="'articles-page-'+#p0+'-'+#p1")
     public Page4Navigator<Article> list(int start, int size, int navigatePages) {
@@ -102,6 +99,11 @@ public class ArticleService  {
 
     @CacheEvict(allEntries=true)
     public void delete(int id) {
+        Article article = articleDAO.findOne(id);
+        removeArticleFromArticleContent(article);
+        removeArticleFromReview(article);
+        removeArticleFromPageview(article);
+        removeArticleFromImg(article);
         articleDAO.delete(id);
         articleESDAO.delete(id);
     }
@@ -153,20 +155,7 @@ public void fill(Category category) {
     category.setArticles(articles);
 }
 
-    public void fillByRow(List<Category> categorys) {
-        int articleNumberEachRow = 8;
-        for (Category category : categorys) {
-            List<Article> articles =  category.getArticles();
-            List<List<Article>> articlesByRow =  new ArrayList<>();
-            for (int i = 0; i < articles.size(); i+=articleNumberEachRow) {
-                int size = i+articleNumberEachRow;
-                size= size>articles.size()?articles.size():size;
-                List<Article> articlesOfEachRow =articles.subList(i, size);
-                articlesByRow.add(articlesOfEachRow);
-            }
-            category.setArticlesByRow(articlesByRow);
-        }
-    }
+
 
     @Cacheable(key="'articles-cid-'+ #p0.id")
     public List<Article> listByCategory(Category category){
@@ -174,14 +163,42 @@ public void fill(Category category) {
     }
 
     public void removeArticleFromArticleContent(Article article) {
-        ArticleContent articleContent =article.getArticleContent();
-        articleContent.setArticle(null);
+//        ArticleContent articleContent =article.getArticleContent();
+        ArticleContent articleContent =articleContentService.getByArticle(article);
+        articleContentService.delete(articleContent.getId());
     }
     public void removeArticleFromReview(Article article) {
-        List<Review> reviews = article.getReviews();
+//        List<Review> reviews = article.getReviews();
+        List<Review> reviews = reviewService.list(article);
         if(null!=reviews) {
             for (Review review : reviews) {
                 review.setArticle(null);
+                reviewService.update(review);
+            }
+        }
+    }
+
+    public void removeArticleFromPageview(Article article) {
+//        List<Pageview> pageviews = article.getPageviews();
+        List<Pageview> pageviews = pageviewService.list(article);
+        if(null!=pageviews) {
+            for (Pageview pageview : pageviews) {
+                pageviewService.delete(pageview.getId());
+            }
+        }
+    }
+
+    public void removeArticleFromImg(Article article) {
+        List<ArticleImg> articleImgs = articleImgService.listSingleArticleImgs(article);
+        if(null!=articleImgs) {
+            for (ArticleImg articleImg : articleImgs) {
+                articleImgService.delete(articleImg.getId());
+            }
+        }
+        articleImgs = articleImgService.listDetailArticleImgs(article);
+        if(null!=articleImgs) {
+            for (ArticleImg articleImg : articleImgs) {
+                articleImgService.delete(articleImg.getId());
             }
         }
     }

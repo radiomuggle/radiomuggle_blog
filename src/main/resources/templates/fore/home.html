@@ -42,8 +42,8 @@
 <!--				</div>-->
 <!--			</form>-->
             <div id="wrapper-learnmore">
-            	<div class="bouton-learnmore object">
-        			<div class="text-learnmore object" onclick="location.href='home#A2'">看看文章</div>
+            	<div class="button-learnmore object">
+        			<div class="text-learnmore object" onclick="location.href='home#Articles'">查看近期文章</div>
     			</div>
             </div>
    	    </div>
@@ -59,14 +59,14 @@
 
 <!-- PART 2 - TITLE -->
 
-<div id="A2">
+<!--<div id="A2">-->
 
-	<div id="text-2" class="wow fadeIn" data-wow-offset="10">近期文章</div>
-    
-</div>
+<!--	<div id="text-2" class="wow fadeIn" data-wow-offset="10">近期文章</div>-->
+<!--    -->
+<!--</div>-->
     
 <!-- PART 3 - PORTFOLIO ARTICLES 3 GRID -->
-
+<div id="Articles">
 <div id="wrapper-A3" class="object">
 <!--	v-if="index<8"-->
     	<div id="A3-left" v-for="a,index in articles ">
@@ -160,7 +160,7 @@
 <!--        </div>-->
 	<div class="calage"></div>     
 </div>
-
+</div>
 
 
 <div th:replace="include/fore/footer::html" ></div>

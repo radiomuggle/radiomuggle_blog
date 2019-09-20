@@ -1,6 +1,7 @@
 package com.muggle.blog.controller;
 
 import com.google.code.kaptcha.impl.DefaultKaptcha;
+import com.muggle.blog.pojo.Pageview;
 import com.muggle.blog.pojo.Review;
 import com.muggle.blog.service.ReviewService;
 import com.muggle.blog.util.Page4Navigator;
@@ -29,6 +30,13 @@ public class ReviewController {
     public Page4Navigator<Review> list(@PathVariable("aid") int aid, @RequestParam(value = "start", defaultValue = "0") int start, @RequestParam(value = "size", defaultValue = "5") int size) throws Exception {
         start = start<0?0:start;
         Page4Navigator<Review> page =reviewService.list(aid, start, size,5);
+        return page;
+    }
+
+    @GetMapping("/reviews")
+    public Page4Navigator<Pageview> list(@RequestParam(value = "start", defaultValue = "0") int start, @RequestParam(value = "size", defaultValue = "10") int size) throws Exception {
+        start = start<0?0:start;
+        Page4Navigator<Pageview> page =reviewService.list(start, size, 5);  //5表示导航分页最多有5个，像 [1,2,3,4,5] 这样
         return page;
     }
 
@@ -149,7 +157,7 @@ public class ReviewController {
     public Object imgverifyControllerDefaultKaptcha(@RequestBody Review bean, HttpSession session,  HttpServletRequest request) {
         String inputImageCode = bean.getInputImageCode();
         String captchaId = (String) session.getAttribute("verifyCode");
-        System.out.println("验证码是：" + captchaId);
+//        System.out.println("验证码是：" + captchaId);
         System.out.println("用户输入的是：" + inputImageCode);
 //        inputImageCode = inputImageCode.substring(0, inputImageCode.length() - 1);
 //        System.out.println("笨方法改了一下后，用户输入变为：" + inputImageCode);

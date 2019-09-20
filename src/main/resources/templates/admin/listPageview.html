@@ -11,10 +11,11 @@
         <div class="sidebar-scroll">
             <nav>
                 <ul class="nav">
-                    <li><a href="admin_index" class=""><i class="lnr lnr-home"></i> <span>首页</span></a></li>
-                    <li><a href="admin_article_list" class=""><i class="lnr lnr-pencil"></i> <span>文章管理</span></a></li>
-                    <li><a href="admin_category_list" class=""><i class="lnr lnr-inbox"></i> <span>分类管理</span></a></li>
-                    <li><a href="admin_pageview_list" class="active"><i class="lnr lnr-users"></i> <span>访问管理</span></a></li>
+                    <li><a href="admin_index" class=""> <span>首页</span></a></li>
+                    <li><a href="admin_article_list" class=""> <span>文章管理</span></a></li>
+                    <li><a href="admin_category_list" class=""> <span>分类管理</span></a></li>
+                    <li><a href="admin_review_list" class=""> <span>评论管理</span></a></li>
+                    <li><a href="admin_pageview_list" class="active"> <span>访问管理</span></a></li>
                 </ul>
             </nav>
         </div>
@@ -28,7 +29,8 @@
                 beans: [],
                 bean: '',
                 pagination:{},
-                article:''
+                article:'',
+
             };
 
             //ViewModel
@@ -75,7 +77,7 @@
         <!-- MAIN CONTENT -->
         <div class="main-content">
             <div class="container-fluid">
-                <h3 class="page-title">访问管理</h3>
+                <a href="admin_index"><h3 class="page-title">访问管理</h3></a>
                 <div class="row">
                     <div class="col-md-12">
                         <!-- TABLE HOVER -->
@@ -91,8 +93,7 @@
                                         <th>时间</th>
                                         <th>ip</th>
                                         <th>url</th>
-<!--                                        <th>aid</th>-->
-                                        <th>删除</th>
+                                        <th>地址</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -101,10 +102,12 @@
                                         <td>{{bean.create_time |formatDateFilter('YYYY-MM-DD HH:mm:ss')}}</td>
                                         <td>{{bean.ip}}</td>
                                         <td>{{bean.url}}</td>
+                                        <td >{{bean.show_ip}}</td>
 
-                                        <td>
-                                            <a href="#nowhere"  @click="deleteBean(bean.id)"><span class="   glyphicon glyphicon-trash"></span></a>
-                                        </td>
+
+<!--                                        <td>-->
+<!--                                            <a href="#nowhere"  @click="deleteBean(bean.id)"><span class="   glyphicon glyphicon-trash"></span></a>-->
+<!--                                        </td>-->
                                     </tr>
 
                                     </tbody>

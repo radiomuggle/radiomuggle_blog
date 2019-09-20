@@ -17,24 +17,13 @@ public class Category {
 
     String name;
 
-    int number;
 
+//    @OneToMany(mappedBy = "category",cascade=CascadeType.ALL,fetch=FetchType.LAZY)
     @Transient
     List<Article> articles;
 
     @Transient
-    List<List<Article>> articlesByRow;
-
-    @Transient
     private int articleCount;
-
-    public int getNumber() {
-        return number;
-    }
-
-    public void setNumber(int number) {
-        this.number = number;
-    }
 
 
     public int getId() {
@@ -59,21 +48,14 @@ public class Category {
         this.articles = articles;
     }
 
-    public List<List<Article>> getArticlesByRow() {
-        return articlesByRow;
-    }
-
-    public void setArticlesByRow(List<List<Article>> articlesByRow) {
-        this.articlesByRow = articlesByRow;
-    }
-
     @Override
     public String toString() {
         return "Category{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", number=" + number +
+                ", articleCount=" + articleCount +
                 ", articles=" + articles +
+
                 '}';
     }
 

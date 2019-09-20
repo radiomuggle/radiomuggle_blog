@@ -19,7 +19,7 @@ html,body{
 
 
 #A0{
-    background: url(../IMG/index.jpg)  50% 50% no-repeat;
+    background: url(../IMG/homeback.jpg)  50% 50% no-repeat;
     position:absolute;
     background-size: cover;
     -webkit-background-size:cover;
@@ -218,7 +218,7 @@ html,body{
     width:550px;
     height:auto;
     top:50%;
-    margin-top:50px;
+    /*margin-top:50px;*/
     left:50%;
     margin-left:-275px;
     z-index:3;
@@ -230,7 +230,8 @@ html,body{
     color:#444549;
     font-family: 'open_sansregular';
     letter-spacing:-1px;
-    padding-top:50px;
+    padding-top:40px;
+    padding-bottom:20px;
 }
     #text-3{
         position:relative;
@@ -238,7 +239,7 @@ html,body{
         width:550px;
         height:auto;
         top:50%;
-        margin-top:40px;
+        /*margin-top:40px;*/
         left:50%;
         margin-left:-275px;
         z-index:3;
@@ -304,7 +305,7 @@ html,body{
     left:50%;
     margin-left:-560px;
     height:auto;
-    padding-top:50px;
+    padding-top:20px;
     overflow:hidden;
     opacity:0;
 }
@@ -395,7 +396,7 @@ html,body{
     font-size:21px;
     line-height:160%;
     color:#444549;
-    font-family: 'open_sanssemibold';
+    /*font-family: 'open_sanssemibold';*/
     top:15px;
     letter-spacing:-1px;
 }
@@ -410,7 +411,7 @@ html,body{
     line-height:140%;
     left:0;
     color:#9C9C9C;
-    font-family: 'open_sansregular';
+    /*font-family: 'open_sansregular';*/
     top:35px;
 }
 
@@ -418,7 +419,9 @@ html,body{
     position:relative;
     width:100%;
     height:auto;
-    margin-top:100px;
+    /*margin-top:100px;*/
+    margin-bottom:100px;
+
 }
 
 #A3-left-image-1,#A3-left-image-2,#A3-middle-image-3,#A3-middle-image-4,#A3-right-image-5,#A3-right-image-6{
@@ -428,6 +431,7 @@ html,body{
     top:0;
     left:0;
     overflow:hidden;
+    border-radius: 10px;
 }
 
 #A3-left-image-1 img,#A3-left-image-2 img,#A3-middle-image-3 img,#A3-middle-image-4 img,#A3-right-image-5 img,#A3-right-image-6 img{

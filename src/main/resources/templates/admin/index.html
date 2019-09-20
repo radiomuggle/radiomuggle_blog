@@ -11,9 +11,10 @@
 		<div class="sidebar-scroll">
 			<nav>
 				<ul class="nav">
-					<li><a href="admin_index" class="active"><span>首页</span></a></li>
+					<li><a href="home" class="active" title="去博客首页"><span>首页</span></a></li>
 					<li><a href="admin_article_list" class=""><span>文章管理</span></a></li>
 					<li><a href="admin_category_list" class=""> <span>分类管理</span></a></li>
+					<li><a href="admin_review_list" class=""> <span>评论管理</span></a></li>
 					<li><a href="admin_pageview_list" class=""></i> <span>访问管理</span></a></li>
 				</ul>
 			</nav>
@@ -74,35 +75,44 @@
 					<!-- OVERVIEW -->
 					<div class="panel panel-headline">
 						<div class="panel-heading">
-							<h3 class="panel-title">数据统计</h3>
+							<a href="home"><h3 class="panel-title">数据统计</h3></a>
 <!--							<p class="panel-subtitle">Period: Oct 14, 2016 - Oct 21, 2016</p>-->
 						</div>
 						<div class="panel-body">
 							<div class="row">
-								<div class="col-md-4">
+								<div class="col-md-3">
 									<div class="metric">
 										<span class="icon"><i class="fa fa-inbox"></i></span>
 										<p>
 											<span class="number">{{all_review_count}}</span>
-											<span class="title">评论数</span>
+											<a href="admin_review_list"><span class="title">评论数</span></a>
 										</p>
-									</div>
+						 			</div>
 								</div>
-								<div class="col-md-4">
+								<div class="col-md-3">
 									<div class="metric">
 										<span class="icon"><i class="fa fa-eye"></i></span>
 										<p>
 											<span class="number">{{all_view_count}}</span>
-											<span class="title">Visits</span>
+											<a href="admin_pageview_list"><span class="title">访问量</span></a>
 										</p>
 									</div>
 								</div>
-								<div class="col-md-4">
+								<div class="col-md-3">
 									<div class="metric">
 										<span class="icon"><i class="fa fa-bar-chart"></i></span>
 										<p>
 											<span class="number">{{all_article_count}}</span>
-											<span class="title">Blogs</span>
+											<a href="admin_article_list"><span class="title">文章量</span></a>
+										</p>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="metric">
+										<span class="icon"><i class="fa fa-bar-chart"></i></span>
+										<p>
+											<span class="number">{{all_article_count}}</span>
+											<a href="admin_category_list"><span class="title">分类量（雾）</span></a>
 										</p>
 									</div>
 								</div>

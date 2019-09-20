@@ -74,7 +74,6 @@ public Object category(@PathVariable("cid") int cid,String sort) {
     public Object categories() {
         List<Category> cs= categoryService.list();
         articleService.fill(cs);
-        articleService.fillByRow(cs);
         categoryService.removeCategoryFromArticle(cs);
         return cs;
     }
@@ -140,8 +139,8 @@ public Object category(@PathVariable("cid") int cid,String sort) {
     public Object register(@RequestBody User user, HttpSession session) {
         String inputImageCode = user.getInputImageCode();
         String captchaId = (String) session.getAttribute("verifyCode");
-        System.out.println("验证码是：" + captchaId);
-        System.out.println("用户输入的是：" + inputImageCode);
+//        System.out.println("验证码是：" + captchaId);
+//        System.out.println("用户输入的是：" + inputImageCode);
         if (!captchaId.equals(inputImageCode)) {
             System.out.println("输入错误");
             String message = "验证码错误";

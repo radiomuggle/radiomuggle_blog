@@ -14,7 +14,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 public class Application {
     static {
         PortUtil.checkPort(6379,"Redis 服务端",true);
-//        PortUtil.checkPort(9300,"ElasticSearch 服务端",true);
+        PortUtil.checkPort(9300,"ElasticSearch 服务端",true);
     }
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);

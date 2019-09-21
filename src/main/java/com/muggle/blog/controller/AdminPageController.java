@@ -19,11 +19,11 @@ public class AdminPageController {
     public String listCategory(){
         return "admin/listCategory";
     }
-    @GetMapping(value="/admin_category_edit")
-    public String editCategory(){
-        return "admin/editCategory";
-
-    }
+//    @GetMapping(value="/admin_category_edit")
+//    public String editCategory(){
+//        return "admin/editCategory";
+//
+//    }
 
     @GetMapping(value="/admin_article_list")
     public String listArticle(){

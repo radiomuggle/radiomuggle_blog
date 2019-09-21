@@ -28,8 +28,8 @@
 				uri:'articles',
 				listURL:'admin_article_list',
 				beans: [],
-				// bean: {id: 0, name: '','summary':'','traffic':0,category:{'id':0}},
-				bean: {id: 0, name: '','summary':'','traffic':0,category:{'id':0},'content':''},
+				// bean: {id: 0, name: '','summary':'','traffic':0,category:{'id':0},'content':''},
+				bean: {id: 0, name: '','summary':'','traffic':0,'content':'',category:{}},
 				pagination:{},
 				category:'',
 				categories: [],
@@ -90,7 +90,7 @@
 						axios.get(url).then(function(response) {
 							vue.bean = response.data;
 							vue.editarticle = response.data;
-							// console.log(vue.bean);
+							console.log(vue.bean);
 						});
 					},
 					update: function () {
@@ -98,7 +98,7 @@
 							return;
 						if (!checkEmpty(this.bean.summary, "概述"))
 							return;
-						if (!checkEmpty(this.bean.category.id, "分类"))
+						if (!checkEmpty(this.bean.category, "分类"))
 							return;
 						var url = this.uri;
 						// console.log(vue.bean);
@@ -201,17 +201,22 @@
 
 								<tr>
 								<p class="edit_form">文章标题</p>
-								<td><input  @keyup.enter="add" v-model.trim="bean.name" type="text" class="form-control"></td>
+								<td><input   v-model.trim="bean.name" type="text" class="form-control"></td>
 								</tr>
 								<tr>
 									<p class="edit_form">概述</p>
-									<td><input  @keyup.enter="add" v-model.trim="bean.summary" type="text"
+									<td><input  v-model.trim="bean.summary" type="text"
 												class="form-control"></td>
 								</tr>
 								<tr>
 									<p class="edit_form">分类</p>
-									<select v-model.trim="bean.category.id" class="form-control">
-										<option v-for="c in categories" :value="c.id">
+<!--									<select v-model.trim="bean.category.id" class="form-control">-->
+<!--										<option v-for="c in categories" :value="c.id">-->
+<!--											{{c.name}}-->
+<!--										</option>-->
+<!--									</select>-->
+									<select v-model.trim="bean.category" class="form-control">
+										<option v-for="c in categories" :value="c">
 											{{c.name}}
 										</option>
 									</select>
@@ -219,7 +224,7 @@
 <!--												class="form-control"></td>-->
 								</tr>
 								<p class="edit_form">文章内容</p>
-								<textarea class="form-control" style="height: 150px" @keyup.enter="add" v-model.trim="bean.content"></textarea>
+								<textarea class="form-control" style="height: 150px"  v-model.trim="bean.content"></textarea>
 
 							</div>
 <!--							<table class="addTable">-->
@@ -283,8 +288,13 @@
 								</tr>
 								<tr>
 									<p class="edit_form">分类</p>
-									<select v-model.trim="bean.category.id" class="form-control">
-										<option v-for="c in categories" :value="c.id">
+<!--									<select v-model.trim="bean.category.id" class="form-control" v-if="bean.category">-->
+<!--										<option v-for="c in categories" :value="c.id">-->
+<!--											{{c.name}}-->
+<!--										</option>-->
+<!--									</select>-->
+									<select v-model.trim="bean.category" class="form-control" >
+										<option v-for="c in categories" :value="c">
 											{{c.name}}
 										</option>
 									</select>

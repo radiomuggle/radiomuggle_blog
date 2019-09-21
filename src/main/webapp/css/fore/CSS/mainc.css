@@ -132,7 +132,7 @@ html,body{
     display:none;
 }
 
-#recent-post-title,#recent-post-1,#recent-post-2,#recent-post-3,#recent-post-4{
+#recent-post-title,.recent-post-1,#recent-post-2,#recent-post-3,#recent-post-4{
     position:relative;
     width:70%;
     left:50%;

@@ -53,7 +53,7 @@ public Object category(@PathVariable("cid") int cid,String sort) {
     c.setArticleCount(articleService.getArticleCount(c));
     categoryService.removeCategoryFromArticle(c);
     if(null!=sort) {
-        System.out.println("sort: "+sort);
+//        System.out.println("sort: "+sort);
         switch (sort) {
 
             case "review":

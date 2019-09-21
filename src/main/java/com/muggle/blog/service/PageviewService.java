@@ -34,8 +34,8 @@ public class PageviewService {
     public void add(Pageview bean) {
         String url = bean.getUrl();
 //        System.out.println(bean.toString());
-        if(StringUtils.startsWith(url, "fore_article/")) {
-           int aid = Integer.parseInt(StringUtils.remove(url, "fore_article/"));
+        if(StringUtils.startsWith(url, "/fore_article/")) {
+           int aid = Integer.parseInt(StringUtils.remove(url, "/fore_article/"));
             bean.setArticle(articleService.get(aid));
         }
         pageviewDAO.save(bean);

@@ -46,7 +46,7 @@ public class CategoryService {
 
     @CacheEvict(allEntries=true)
     public void delete(int id) {
-        removeCategoryFromArticle(categoryDAO.findOne(id));
+        deleteCategoryFromArticle(categoryDAO.findOne(id));
         categoryDAO.delete(id);
     }
 
@@ -68,6 +68,14 @@ public class CategoryService {
     }
 
     public void removeCategoryFromArticle(Category category) {
+        List<Article> articles =category.getArticles();
+        if(null!=articles) {
+            for (Article article : articles) {
+                article.setCategory(null);
+            }
+        }
+    }
+    public void deleteCategoryFromArticle(Category category) {
         articleService.fill(category);
         List<Article> articles =category.getArticles();
         if(null!=articles) {
@@ -90,4 +98,6 @@ public class CategoryService {
         for (Category category : categories)
             setArticleNumber(category);
     }
+
+
 }

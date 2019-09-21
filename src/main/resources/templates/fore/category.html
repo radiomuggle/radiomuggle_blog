@@ -32,10 +32,11 @@
 	<div id="text-2" >
 		<a  @click="toggle2Categories" :title="'查看分类列表'">{{category.name}}</a>
 		<div v-if="articles.length==0" style="font-size:20px;color:#CCC;" > 此分类暂时没有文章</div>
-		<div v-if="articles.length!=0" style="font-size:10px;text-align:center;" >
+		<div v-if="articles.length!=0" style="font-size:15px;text-align:center;" >
 
 <!--			<table>-->
 <!--				<tr>-->
+					排序按
 					<a :href="'?cid='+category.id+'&sort=date'" :class="{'grayColumn':(sort=='date')}">最近<span class="glyphicon glyphicon-arrow-down"></span></a>
 					<a :href="'?cid='+category.id+'&sort=review'" :class="{'grayColumn':(sort=='review')}">评论量<span class="glyphicon glyphicon-arrow-down"></span></a>
 					<a :href="'?cid='+category.id+'&sort=pageview'" :class="{'grayColumn':(sort=='pageview')}">浏览量<span class="glyphicon glyphicon-arrow-down"></span></a>

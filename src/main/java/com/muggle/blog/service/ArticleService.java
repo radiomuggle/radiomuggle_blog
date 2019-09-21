@@ -100,10 +100,7 @@ public class ArticleService  {
     @CacheEvict(allEntries=true)
     public void delete(int id) {
         Article article = articleDAO.findOne(id);
-        removeArticleFromArticleContent(article);
-        removeArticleFromReview(article);
-        removeArticleFromPageview(article);
-        removeArticleFromImg(article);
+        deleteArticleFromAll(article);
         articleDAO.delete(id);
         articleESDAO.delete(id);
     }
@@ -163,45 +160,73 @@ public void fill(Category category) {
     }
 
     public void removeArticleFromArticleContent(Article article) {
-//        ArticleContent articleContent =article.getArticleContent();
-        ArticleContent articleContent =articleContentService.getByArticle(article);
-        articleContentService.delete(articleContent.getId());
+        ArticleContent articleContent =article.getArticleContent();
+        articleContent.setArticle(null);
     }
     public void removeArticleFromReview(Article article) {
-//        List<Review> reviews = article.getReviews();
-        List<Review> reviews = reviewService.list(article);
+        List<Review> reviews = article.getReviews();
         if(null!=reviews) {
             for (Review review : reviews) {
                 review.setArticle(null);
-                reviewService.update(review);
             }
         }
     }
 
-    public void removeArticleFromPageview(Article article) {
+//    public void removeArticleFromPageview(Article article) {
 //        List<Pageview> pageviews = article.getPageviews();
-        List<Pageview> pageviews = pageviewService.list(article);
-        if(null!=pageviews) {
-            for (Pageview pageview : pageviews) {
-                pageviewService.delete(pageview.getId());
+//        if(null!=pageviews) {
+//            for (Pageview pageview : pageviews) {
+//                pageview.setArticle(null);
+//            }
+//        }
+//    }
+//
+//    public void removeArticleFromImg(Article article) {
+//        List<ArticleImg> articleImgs = articleImgService.listSingleArticleImgs(article);
+//        if(null!=articleImgs) {
+//            for (ArticleImg articleImg : articleImgs) {
+//                articleImg.setArticle(null);
+//            }
+//        }
+//        articleImgs = articleImgService.listDetailArticleImgs(article);
+//        if(null!=articleImgs) {
+//            for (ArticleImg articleImg : articleImgs) {
+//                articleImg.setArticle(null);
+//            }
+//        }
+//    }
+
+        public void deleteArticleFromAll(Article article) {
+        ArticleContent articleContent =articleContentService.getByArticle(article);
+        articleContentService.delete(articleContent.getId());
+            List<Review> reviews = reviewService.list(article);
+            if(null!=reviews) {
+                for (Review review : reviews) {
+                    review.setArticle(null);
+                    reviewService.update(review);
+                }
             }
-        }
+            List<Pageview> pageviews = pageviewService.list(article);
+            if(null!=pageviews) {
+                for (Pageview pageview : pageviews) {
+                    pageviewService.delete(pageview.getId());
+                }
+            }
+            List<ArticleImg> articleImgs = articleImgService.listSingleArticleImgs(article);
+            if(null!=articleImgs) {
+                for (ArticleImg articleImg : articleImgs) {
+                    articleImgService.delete(articleImg.getId());
+                }
+            }
+            articleImgs = articleImgService.listDetailArticleImgs(article);
+            if(null!=articleImgs) {
+                for (ArticleImg articleImg : articleImgs) {
+                    articleImgService.delete(articleImg.getId());
+                }
+            }
     }
 
-    public void removeArticleFromImg(Article article) {
-        List<ArticleImg> articleImgs = articleImgService.listSingleArticleImgs(article);
-        if(null!=articleImgs) {
-            for (ArticleImg articleImg : articleImgs) {
-                articleImgService.delete(articleImg.getId());
-            }
-        }
-        articleImgs = articleImgService.listDetailArticleImgs(article);
-        if(null!=articleImgs) {
-            for (ArticleImg articleImg : articleImgs) {
-                articleImgService.delete(articleImg.getId());
-            }
-        }
-    }
+
 
     public int getCountByCategory(Category category) {
 

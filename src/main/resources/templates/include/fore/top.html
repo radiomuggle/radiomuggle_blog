@@ -3,13 +3,55 @@
 <div id="main-wrapper-menu" th:fragment="html" xmlns:th="http://www.w3.org/1999/xhtml"
      xmlns:th="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml"
      xmlns:th="http://www.w3.org/1999/xhtml">
+    <script>
+
+        $(function(){
+            var data4Vue0 = {
+                uri:'fore_category',
+                categories: [],
+                category:'',
+
+            };
+            //ViewModel
+            var vue0 = new Vue({
+                el: '#wrapper-menu',
+                data: data4Vue0,
+                mounted:function(){ //mounted　表示这个 Vue 对象加载成功了
+                    linkDefaultActions();
+                    this.load();
+                },
+                methods: {
+                    load:function(){
+                        var url =  "fore_category_list";
+                        axios.get(url).then(function(response) {
+                            vue0.categories = response.data;
+                            // console.log(vue0.categories);
+                        });
+                    },
+                },
+                filters:{
+                    subTitleFilter:function(value) {
+                        if (!value) return ''; //如果为空，则返回空字符串
+                        return value.split(" ")[0]; //根据空格拆分，并且只获取数组第一个值
+                    }
+                }
+            });
+
+
+        });
+
+    </script>
     <div id="wrapper-cross"></div>
     <div id="wrapper-menu">
 
         <div class="recent-post text-part-menutab">
             <ul>
-                <li><div id="recent-post-1"><a href="home">首页</a></div></li>
-                <li><div id="recent-post-2"><a href="article_all">所有文章</a></div></li>
+                <li><div class="recent-post-1" align="center"><a href="home">首页</a></div></li>
+                <li><div class="recent-post-1" align="center"><a href="article_all">所有文章</a></div></li>
+                <div id="line-category-post"></div>
+                <li v-for="c in categories" align="center">
+                    <div v-if="c.name!=category.name" class="recent-post-1"><a :href="'fore_category?cid='+c.id">{{c.name}}</a></div>
+                </li>
             </ul>
         </div>
 

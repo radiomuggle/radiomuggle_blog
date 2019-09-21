@@ -137,13 +137,12 @@ public class ReviewController {
     }
 
     //    @PostMapping(value ="/verifyCode", consumes = {"application/x-www-form-urlencoded"})
-//    @PostMapping("/verifyCode")
 //    public Object imgverifyControllerDefaultKaptcha(@RequestBody String inputImageCode, HttpSession session) {
 //        String captchaId = (String) session.getAttribute("verifyCode");
 //        System.out.println("验证码是：" + captchaId);
 //        System.out.println("用户输入的是：" + inputImageCode);
 //        inputImageCode = inputImageCode.substring(0,inputImageCode.length()-1);
-//        System.out.println("笨方法改了一下后，用户输入变为：" + inputImageCode);
+//        System.out.println("改了一下后，用户输入变为：" + inputImageCode);
 //        if (!captchaId.equals(inputImageCode)) {
 //            System.out.println("输入错误");
 //            String message ="账号密码错误";
@@ -159,8 +158,6 @@ public class ReviewController {
         String captchaId = (String) session.getAttribute("verifyCode");
 //        System.out.println("验证码是：" + captchaId);
         System.out.println("用户输入的是：" + inputImageCode);
-//        inputImageCode = inputImageCode.substring(0, inputImageCode.length() - 1);
-//        System.out.println("笨方法改了一下后，用户输入变为：" + inputImageCode);
         if (!captchaId.equals(inputImageCode)) {
             System.out.println("输入错误");
             String message = "账号密码错误";
@@ -169,6 +166,7 @@ public class ReviewController {
             System.out.println("输入正确");
             bean.setCreate_time(new Date());
             String ip = request.getRemoteAddr();
+            //添加评论ip
             bean.setIp(ip);
             reviewService.add(bean);
             return Result.success();

@@ -33,14 +33,16 @@
 
         <div id="wrapper-A2-date-1">
 
-			<div id="A2-date-1" v-show="showCreate_time" v-if="article.category">
-				<a  :href="'fore_category?cid='+article.category.id" style="color:#CCC;" title="去往分类">分类： {{article.category.name}}</a>
+			<div id="A2-date-1" v-show="showCreate_time">
+				<a  :href="'fore_category?cid='+article.category.id" style="color:#CCC;" title="去往分类" v-if="article.category">分类： {{article.category.name}}</a>
+				<a  :href="'#'" style="color:#CCC;" title="找不到分类" v-if="article.category==null">没有分类</a>
 				<br>
 				<a  href="#write" style="color:#CCC;" @click="toggle2Modify" title="查看编辑时间">发布于 {{article.create_time |formatDateFilter('YYYY-MM-DD')}}</a>
 
 			</div>
-			<div id="A2-date-1" v-show="showModify_time" v-if="article.category">
-				<a  :href="'fore_category?cid='+article.category.id" style="color:#CCC;" title="去往分类">分类： {{article.category.name}}</a>
+			<div id="A2-date-1" v-show="showModify_time">
+				<a  :href="'fore_category?cid='+article.category.id" style="color:#CCC;" title="去往分类" v-if="article.category">分类： {{article.category.name}}</a>
+				<a  :href="'#'" style="color:#CCC;" title="找不到分类" v-if="article.category==null">没有分类</a>
 				<br>
 				<a  href="#write" style="color:#CCC;" @click="toggle2Create" title="查看发布时间">编辑于 {{article.modify_time |formatDateFilter('YYYY-MM-DD')}}</a>
 			</div>

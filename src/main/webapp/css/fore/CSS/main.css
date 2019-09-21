@@ -221,7 +221,7 @@ html,body{
 	display:none;	
 }
 
-#recent-post-title,#recent-post-1,#recent-post-2,#recent-post-3,#recent-post-4{
+#recent-post-title,.recent-post-1,#recent-post-2,#recent-post-3,#recent-post-4{
 	position:relative;
 	width:70%;
 	left:50%;
@@ -742,7 +742,7 @@ iframe {
 #wrapper-social,#wrapper-A4{width:280px;margin-left:-140px;}
 #wrapper-logo{margin-left:-135px;top:30px;}
 #wrapper-menu{margin-top:-45%;}
-#recent-post-title,#recent-post-1,#recent-post-2,#recent-post-3,#recent-post-4{line-height:115%;}
+#recent-post-title,.recent-post-1,#recent-post-2,#recent-post-3,#recent-post-4{line-height:115%;}
 #category-post-title,#category-post-1,#category-post-2,#category-post-3{line-height:115%;}
 }
 

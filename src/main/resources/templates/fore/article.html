@@ -100,34 +100,15 @@
 
 		</div>
 
-<!--		<div  v-for="r in article.reviews">-->
-<!--				<div>-->
-<!--					<div>-->
-<!--						{{r.content }}-->
-<!--					</div>-->
-<!--					<div>-->
-<!--						{{r.create_time|formatDateFilter('YYYY-MM-DD')}}-->
-<!--					</div>-->
-<!--				</div>-->
-<!--				<div class="productReviewItemUserInfo">-->
-<!--					{{r.name}}<span class="userInfoGrayPart"></span>-->
-<!--				</div>-->
-<!--		</div>-->
 
 		<div id="A4bb" class="object">
 
 			<div id="wrapper-A4bb">
 				<div id = "conteneurb">
-<!--					<div>-->
-<!--&lt;!&ndash;						<div id="er-message"></div>&ndash;&gt;-->
-<!--						<p><input type="text" tabindex="1" placeholder="Name"/></p>-->
-<!--						<p><input type="text" tabindex="2" placeholder="Email"/></p>-->
-<!--						<p><textarea maxlength="500" placeholder="Content" tabindex="4" cols="30" rows="8"></textarea></p>-->
-<!--					</div>-->
 					<div class="productReviewItem" v-for="r,index in article.reviews" v-if="index<6 && r.is_effective==1">
 						<div>
 							<div class="articleReviewItemDate">{{r.name}}</div>
-							<div>{{r.content}}</div>
+							<div class="review-content" style="width: 600px;">{{r.content}}</div>
 
 							<div class="articleReviewItemDate">{{r.create_time|formatDateFilter('YYYY-MM-DD')}}</div>
 						</div>

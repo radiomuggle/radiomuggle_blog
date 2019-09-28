@@ -68,7 +68,6 @@ public Object login(@RequestBody User userParam, HttpSession session) {
         try {
             subject.login(token);
             User user = userService.getByName(name);
-//          subject.getSession().setAttribute("user", user);
             session.setAttribute("user", user);
             return Result.success();
         } catch (AuthenticationException e) {

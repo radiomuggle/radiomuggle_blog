@@ -26,26 +26,15 @@ public class ArticleContentController {
 //        articleContent.setModify_time(new Date());
 //        articleContentService.update(articleContent);
 //        ArticleContent bean= articleContentService.getByArticle(article);
-//        System.out.println(bean.toString());
-//        System.out.println(article);
         return articleContent;
     }
 
     @PutMapping("/articleContent")
     public Object update(@RequestBody ArticleContent bean) throws Exception {
         bean.setModify_time(new Date());
-//        System.out.println(bean);
-//        System.out.println("222"+bean.getArticle().getName());
         articleContentService.update(bean);
         return bean;
     }
 
-//    @PostMapping("/articleContent")
-//    public Object add(@RequestBody Article bean) throws Exception {
-//        bean.setModify_time(new Date());
-//        articleContentService.add(bean);
-//        System.out.println("id: "+bean.getId());
-//        return bean;
-//    }
 
 }

@@ -16,7 +16,11 @@ html,body{
     z-index:50;
     background-color:#FFF;
 }
-
+    .search-top{
+        overflow:hidden;
+        border-radius: 5px;
+        padding-left: 5px;
+    }
 
 #A0{
     background: url(../IMG/homeback.jpg)  50% 50% no-repeat;
@@ -142,7 +146,7 @@ html,body{
     text-align:center;
     font-size:17px;
     line-height:150%;
-    color:#666;
+    color:#333333;
     font-family: 'open_sanssemibold';
     letter-spacing:-1px;
     padding-bottom:10px;
@@ -864,7 +868,7 @@ html,body{
     #wrapper-A3,#wrapper-A5,#wrapper-A5b,#line-A7{width:580px;margin-left:-290px;}
     #wrapper-logo{margin-left:-300px;}
     #wrapper-cross,#wrapper-plus{margin-left:250px;}
-    #A3-left,#A3-middle,#A3-right,#A5-left,#A5-middle,#A5-right,#A5b-left,#A5b-middle,#A5b-right{float:none;position:relative;width:100%;height:auto;left:0;padding-right:none;padding-top:50px;padding-bottom:50px;}
+    #A3-left,#A3-middle,#A3-right,#A5-left,#A5-middle,#A5-right,#A5b-left,#A5b-middle,#A5b-right{float:none;position:relative;width:100%;height:auto;left:0;padding-top:50px;padding-bottom:50px;}
     #left-text-post,#mid-text-post,#right-text-post,#left-text-post-2,#left-text-post-3,#mid-text-post-2,#mid-text-post-3,#right-text-post-2,#right-text-post-3,#left-text-post-4,#mid-text-post-4,#right-text-post-4,#left-text-post-1,#mid-text-post-1,#right-text-post-1{text-align:center;}
     #left-text-post,#mid-text-post,#right-text-post{width:100%;}
     #left-line-post,#mid-line-post,#right-line-post{width:33%;left:50%;margin-left:-16.6%;}

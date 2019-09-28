@@ -19,14 +19,14 @@ padding:0;
 
 .text-part-menutab ul li a {
 	text-decoration:none;
-	color:#CCC;
+	color:#0f0f0f;
 	-webkit-transition:color 250ms ease-out; 
 	-moz-transition:color 250ms ease-out;
 	-o-transition:color 250ms ease-out;
 	transition:color 250ms ease-out;
 }
  
-.text-part-menutab ul li a:hover {color:#999;}
+.text-part-menutab ul li a:hover {color:#CCC;}
 
 
 .grayscale{ 

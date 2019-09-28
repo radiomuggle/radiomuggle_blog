@@ -18,6 +18,22 @@ a {
     color: #3b98c8;
     text-decoration: none; }
 
+
+td{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /*width: 600px;*/
+}
+table {
+  table-layout: fixed;
+}
+td:hover {
+  white-space: pre-wrap ;
+  text-overflow: inherit;
+  overflow: visible;
+}
+
 th {
   font-weight: 600; }
 

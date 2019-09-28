@@ -55,14 +55,6 @@
                             vue.beans = response.data.content;
                         });
                     },
-                    // get: function (id) {
-                    //     var url = this.uri+"/"+id;
-                    //     axios.get(url).then(function(response) {
-                    //         vue.bean = response.data;
-                    //         // console.log(vue.bean);
-                    //     })
-                    //     console.log(vue.bean);
-                    // },
                     update: function (id,is_effective) {
                         var url = this.uri;
                         this.bean.id = id;
@@ -71,28 +63,11 @@
                         else
                             this.bean.is_effective = 0;
 
-                        console.log(this.bean);
+                        // console.log(this.bean);
                         axios.put(url,vue.bean).then(function(response){
                             location.href=vue.listURL+"?aid="+aid;
                         });
                     },
-                    // add: function () {
-                    //     if(!checkEmpty(this.bean.name, "文章名称"))
-                    //         return;
-                    //     if (!checkNumber(this.bean.summary, "概述"))
-                    //         return;
-                    //     if (!checkNumber(this.bean.isTop, "是否置顶"))
-                    //         return;
-                    //     if (!checkInt(this.bean.traffic, "浏览量"))
-                    //         return;
-                    //     // if (!checkInt(this.bean.category.id, "浏览量"))
-                    //     // 	return;
-                    //     var url = this.uri;
-                    //     axios.post(url,this.bean).then(function(response){
-                    //         vue.list(0);
-                    //         vue.bean =  {id: 0, name: '', 'summary':'','isTop':0,'traffic':0,category:{'id':0}};
-                    //     });
-                    // },
                     // deleteBean: function (id) {
                     //     if(!checkDeleteLink())
                     //         return;

@@ -62,7 +62,7 @@
 
                         var url =  "categories/"+cid+"/articles?start="+start;
                         // var url =  "categories/"+cid+"/articles?start="+start+"&sort="+sort;
-                        console.log(url);
+                        // console.log(url);
                         axios.get(url).then(function(response) {
                             vue.pagination = response.data;
                             vue.articles = response.data.content;

@@ -32,6 +32,7 @@ public class ForeInterceptor implements HandlerInterceptor {
         String[] requireAuthPages = new String[]{
                 "/home",
 
+
         };
 
         String uri = httpServletRequest.getRequestURI();
@@ -51,7 +52,7 @@ public class ForeInterceptor implements HandlerInterceptor {
             pageview.setCreate_time(new Date());
             if(StringUtils.contains(page, "/home")){
                 area_ip="111";
-//                area_ip=getAreaIP(ip);
+                area_ip=getAreaIP(ip);
             }
 
             else
@@ -96,6 +97,7 @@ public static String getRemortIP(HttpServletRequest request) {
         String path = "/ip";
         String method = "GET";
         String appcode = "自己的appcode";
+
         Map<String, String> headers = new HashMap<String, String>();
         headers.put("Authorization", "APPCODE " + appcode);
         Map<String, String> querys = new HashMap<String, String>();

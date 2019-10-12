@@ -42,7 +42,7 @@
                         var url = this.uri+"/"+aid;
                         axios.get(url).then(function(response) {
                             vue.article = response.data;
-                            console.log(vue.article);
+                            // console.log(vue.article);
                             vue.all_view_count = vue.article.viewCount;
                         })
                     },
@@ -59,7 +59,7 @@
                         if(!checkisEmpty(this.review.content, "内容"))
                             return;
                         this.review.article.id=aid;
-                        console.log(this.review);
+                        // console.log(this.review);
                         var url = "verifyCode";
                             axios.post(url,this.review).then(function(response){
                                 var result = response.data;

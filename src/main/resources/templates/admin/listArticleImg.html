@@ -124,8 +124,8 @@
                     <tr>
                         <td class="addPictureTableTD">
                             <div>
-                                <div class="panel panel-info addPictureDiv">
-                                   <div class="panel-heading">新增产品<b class="text-primary"> 单个 </b>图片</div>
+                                <div class="panel panel-info addPictureDiv" align="center">
+                                   <div class="panel-heading">新增<b class="text-primary"></b>图片</div>
                                     <div class="panel-body">
                                         <table class="addTable">
                                             <tr>
@@ -148,7 +148,7 @@
                                     <thead>
                                     <tr class="info">
                                         <th>ID</th>
-                                        <th>产品单个图片缩略图</th>
+                                        <th>图片缩略图</th>
                                         <th>删除</th>
                                     </tr>
                                     </thead>
@@ -165,51 +165,6 @@
                                     </tbody>
                                 </table>
 
-                            </div>
-                        </td>
-                        <td class="addPictureTableTD">
-                            <div>
-
-                                <div class="panel panel-info addPictureDiv">
-                                    <div class="panel-heading">新增产品<b class="text-primary"> 详情 </b>图片</div>
-                                    <div class="panel-body">
-                                        <table class="addTable">
-                                            <tr>
-                                                <td>请选择本地图片 宽度790  为佳</td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <input id="detailImg" type="file" @change="getDetailFile($event)" name="image" />
-                                                </td>
-                                            </tr>
-                                            <tr class="submitTR">
-                                                <td align="center">
-                                                    <button type="submit" @click="addDetail" class="btn btn-info">提 交</button>
-                                                </td>
-                                            </tr>
-                                        </table>
-
-                                    </div>
-                                </div>
-                                <table class="table table-striped table-bordered table-hover  table-condensed">
-                                    <thead>
-                                    <tr class="info">
-                                        <th>ID</th>
-                                        <th>产品详情图片缩略图</th>
-                                        <th>删除</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr v-for="ai in detailArticleImgs">
-                                        <td>{{ai.id}}</td>
-                                        <td>
-                                            <a title="点击查看原图" :href="'img/articleDetail/'+ai.id+'.jpg'"><img height="50px" :src="'img/articleDetail/'+ai.id+'.jpg'"></a>
-                                        </td>
-                                        <td><a href="#nowhere" @click="deleteBean(ai.id)"><span class="glyphicon glyphicon-trash"></span></a></td>
-
-                                    </tr>
-                                    </tbody>
-                                </table>
                             </div>
                         </td>
                     </tr>

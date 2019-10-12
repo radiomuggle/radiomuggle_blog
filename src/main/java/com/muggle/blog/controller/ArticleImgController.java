@@ -61,6 +61,7 @@ public class ArticleImgController {
         }
         File imageFolder= new File(request.getServletContext().getRealPath(folder));
         File file = new File(imageFolder,bean.getId()+".jpg");
+        System.out.println("id为"+aid+"的文章题图添加： "+bean.getId()+".jpg");
         String fileName = file.getName();
         if(!file.getParentFile().exists())
             file.getParentFile().mkdirs();
@@ -99,8 +100,10 @@ public class ArticleImgController {
 
         File  imageFolder= new File(request.getServletContext().getRealPath(folder));
         File file = new File(imageFolder,bean.getId()+".jpg");
+        System.out.println("题图删除： "+bean.getId()+".jpg");
         String fileName = file.getName();
         file.delete();
+
         if(ArticleImgService.type_single.equals(bean.getType())){
             String imageFolder_small= request.getServletContext().getRealPath("img/articleSingle_small");
             String imageFolder_middle= request.getServletContext().getRealPath("img/articleSingle_middle");

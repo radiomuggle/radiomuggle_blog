@@ -37,7 +37,7 @@
                         },
                         add:function(){
                             var url =  this.uri;
-                            console.log(this.user);
+                            // console.log(this.user);
                             axios.post(url,this.user).then(function(response) {
                                 var result = response.data;
                                 if(result.code==0){

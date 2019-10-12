@@ -47,7 +47,7 @@
                         //     $("div.loginErrorMessageDiv").css("visibility","visible");
                         //     return;
                         // }
-                        console.log(this.user);
+
                         axios.post(url,this.user).then(function(response) {
                             var result = response.data;
                             if(result.code==0){

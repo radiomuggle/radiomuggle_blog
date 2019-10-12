@@ -54,7 +54,7 @@ public class ArticleImgService   {
         if(!singleImgs.isEmpty())
             article.setFirstArticleImg(singleImgs.get(0));
         else
-            article.setFirstArticleImg(new ArticleImg()); //这样做是考虑到产品还没有来得及设置图片，但是在订单后台管理里查看订单项的对应产品图片。
+            article.setFirstArticleImg(new ArticleImg()); //这样做是考虑到还没有来得及设置图片，但是在后台管理里查看图片。
 
     }
     public void setFirstArticleImgs(List<Article> articles) {

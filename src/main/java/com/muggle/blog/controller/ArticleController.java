@@ -71,7 +71,7 @@ public class ArticleController {
 
     @PutMapping("/articles")
     public Object update(@RequestBody Article bean) throws Exception {
-        bean.setModify_time(new Date());
+//        bean.setModify_time(new Date());
         articleService.update(bean);
         ArticleContent articleContent = articleContentService.getByArticle(bean);
         articleContent.setContent(bean.getContent());

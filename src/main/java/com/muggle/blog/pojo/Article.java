@@ -15,23 +15,25 @@ public class Article {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    int id;
+    private int id;
 
     @ManyToOne
 //@ManyToOne(cascade={CascadeType.MERGE,CascadeType.REFRESH},optional=false)
     @JoinColumn(name="cid")
     private Category category;
 
-     String name;
+    private String name;
 
-     String summary;
+    private String summary;
+
+    private String article_img_url;
 
 
-     int traffic;
+    private int traffic;
 
-     Date create_time;
+    private Date create_time;
 
-     Date modify_time;
+    private Date modify_time;
 
 
     @Transient
@@ -207,6 +209,15 @@ public class Article {
     }
 
     public void setArticleImgs(List<ArticleImg> articleImgs) {
+
         this.articleImgs = articleImgs;
+    }
+
+    public String getArticle_img_url() {
+        return article_img_url;
+    }
+
+    public void setArticle_img_url(String article_img_url) {
+        this.article_img_url = article_img_url;
     }
 }

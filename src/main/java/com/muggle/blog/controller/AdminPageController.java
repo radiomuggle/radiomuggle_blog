@@ -75,7 +75,7 @@ public class AdminPageController {
 //        session.removeAttribute("user");
 //        return "redirect:home";
 //    }
-@GetMapping("/adminLogout")
+@GetMapping(value="/adminLogout")
 public String logout( ) {
     Subject subject = SecurityUtils.getSubject();
     if(subject.isAuthenticated())

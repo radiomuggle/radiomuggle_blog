@@ -83,7 +83,11 @@
 	<div id="A3-left" v-for="a,index in category.articles">
 
 		<div id="wrapper-post1" class="text-part-A5">
-			<a :href="'fore_article?aid='+a.id"><div id="A3-left-image-1"><img :src="'img/articleSingle_middle/'+a.firstArticleImg.id+'.jpg'"  alt="post an image with animation" :title="a.name" class="grow"/></div></a>
+			<a :href="'fore_article?aid='+a.id"><div id="A3-left-image-1">
+				<img v-if="null != a.article_img_url"  :src="a.article_img_url" alt="image" :title="a.name" class="grow">
+				<img v-if="null == a.article_img_url && null != a.firstArticleImg" :src="'img/articleSingle_middle/'+a.firstArticleImg.id+'.jpg'" alt="image" :title="a.name" class="grow">
+<!--				<img :src="'img/articleSingle_middle/'+a.firstArticleImg.id+'.jpg'"  alt="post an image with animation" :title="a.name" class="grow"/>-->
+			</div></a>
 
 			<div id="wrapper-A3-left-date-1">
 				<div id="A3-left-date-1">{{a.create_time |formatDateFilter('YYYY-MM-DD')}}</div>

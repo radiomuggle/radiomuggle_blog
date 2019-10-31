@@ -7,8 +7,6 @@ import com.muggle.blog.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
-
 @RestController
 public class ArticleContentController {
     @Autowired
@@ -31,7 +29,7 @@ public class ArticleContentController {
 
     @PutMapping("/articleContent")
     public Object update(@RequestBody ArticleContent bean) throws Exception {
-        bean.setModify_time(new Date());
+//        bean.setModify_time(new Date());
         articleContentService.update(bean);
         return bean;
     }

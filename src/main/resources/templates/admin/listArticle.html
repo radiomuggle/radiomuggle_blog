@@ -29,7 +29,7 @@
 				listURL:'admin_article_list',
 				beans: [],
 				// bean: {id: 0, name: '','summary':'','traffic':0,category:{'id':0},'content':''},
-				bean: {id: 0, name: '','summary':'','traffic':0,'content':'',category:{}},
+				bean: {id: 0, name: '','summary':'','traffic':0,'content':'',category:{},article_img_url:''},
 				pagination:{},
 				category:'',
 				categories: [],
@@ -65,8 +65,8 @@
 							return;
 						if (!checkEmpty(this.bean.summary, "概述"))
 							return;
-						// if (!checkEmpty(this.bean.content, "概述"))
-						// 	return;
+						if (!checkEmpty(this.bean.content, "内容"))
+							return;
 						var url = this.uri;
 						// console.log(vue.bean);
 						axios.post(url,this.bean).then(function(response){
@@ -100,8 +100,12 @@
 							return;
 						if (!checkEmpty(this.bean.category, "分类"))
 							return;
+						if (!checkEmpty(this.bean.content, "内容"))
+							return;
 						var url = this.uri;
 						// console.log(vue.bean);
+						if(this.bean.article_img_url == "")
+							this.bean.article_img_url = null;
 						axios.put(url,vue.bean).then(function(response){
 							// location.href=vue.listURL;
 							vue.list(0);
@@ -160,8 +164,8 @@
 										<td>{{bean.viewCount}}</td>
 										<td v-if="bean.category">{{bean.category.name}}</td>
 										<td v-if="bean.category==null">【无】</td>
-										<td>
-											<img v-if="null != bean.firstArticleImg" width="40px" :src="'img/articleSingle/'+bean.firstArticleImg.id+'.jpg'">	</td>
+										<td> <img v-if="null != bean.article_img_url" width="40px" :src="bean.article_img_url">
+										<img v-if="null == bean.article_img_url && null != bean.firstArticleImg" width="40px" :src="'img/articleSingle/'+bean.firstArticleImg.id+'.jpg'">	</td>
 										<td>
 											<a :href="'admin_articleImg_list?aid=' + bean.id "><span class="glyphicon glyphicon-picture"></span></a>
 										</td>
@@ -202,6 +206,10 @@
 								<tr>
 								<p class="edit_form">文章标题</p>
 								<td><input   v-model.trim="bean.name" type="text" class="form-control"></td>
+								</tr>
+								<tr>
+									<p class="edit_form">文章题图</p>
+									<td><input   v-model.trim="bean.article_img_url" type="text" class="form-control"></td>
 								</tr>
 								<tr>
 									<p class="edit_form">概述</p>
@@ -279,7 +287,12 @@
 
 								<tr>
 									<p class="edit_form">文章标题</p>
-									<td><input  @keyup.enter.native="update" v-model.trim="bean.name" type="text" class="form-control"></td>
+									<td><input   v-model.trim="bean.name" type="text" class="form-control"></td>
+								</tr>
+								
+								<tr>
+									<p class="edit_form">文章题图</p>
+									<td><input   v-model.trim="bean.article_img_url" type="text" class="form-control"></td>
 								</tr>
 								<tr>
 									<p class="edit_form">概述</p>

@@ -30,8 +30,7 @@ public class ForeInterceptor implements HandlerInterceptor {
         HttpSession session = httpServletRequest.getSession();
         String contextPath=session.getServletContext().getContextPath();
         String[] requireAuthPages = new String[]{
-                "/home",
-
+                "/home"
 
         };
 
@@ -52,7 +51,6 @@ public class ForeInterceptor implements HandlerInterceptor {
             pageview.setCreate_time(new Date());
             if(StringUtils.contains(page, "/home")){
                 area_ip="111";
-                area_ip=getAreaIP(ip);
             }
 
             else
@@ -105,11 +103,8 @@ public static String getRemortIP(HttpServletRequest request) {
 
         try {
             HttpResponse response = HttpUtils.doGet(host, path, method, headers, querys);
-//            System.out.println(response.toString());
             //获取response的body
-
             String areaip = EntityUtils.toString(response.getEntity());
-//            System.out.println(areaip);
             return areaip;
 
         } catch (Exception e) {

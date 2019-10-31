@@ -329,7 +329,8 @@ html,body{
     background-color:#FFF;
     float:left;
     width:30%;
-    height:auto;
+    height:521px;
+    /*height:auto;*/
     z-index:1;
 }
 

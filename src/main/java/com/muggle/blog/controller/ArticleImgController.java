@@ -59,9 +59,10 @@ public class ArticleImgController {
         else{
             folder +="articleDetail";
         }
-        File imageFolder= new File(request.getServletContext().getRealPath(folder));
+        File  imageFolder= new File(request.getServletContext().getRealPath(folder));
         File file = new File(imageFolder,bean.getId()+".jpg");
         System.out.println("id为"+aid+"的文章题图添加： "+bean.getId()+".jpg");
+        System.out.println("文件名为： "+file.getName()+" 的绝对路径： "+file.getAbsolutePath());
         String fileName = file.getName();
         if(!file.getParentFile().exists())
             file.getParentFile().mkdirs();
@@ -79,9 +80,10 @@ public class ArticleImgController {
             File f_small = new File(imageFolder_small, fileName);
             File f_middle = new File(imageFolder_middle, fileName);
             f_small.getParentFile().mkdirs();
+//            System.out.println("文件名为： "+f_small.getName()+" 的绝对路径： "+f_small.getAbsolutePath());
             f_middle.getParentFile().mkdirs();
             ImageUtil.resizeImage(file, 56, 56, f_small);
-            ImageUtil.resizeImage(file, 217, 190, f_middle);
+            ImageUtil.resizeImage(file, 217, 217, f_middle);
         }
 
         return bean;

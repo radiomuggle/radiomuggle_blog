@@ -16,7 +16,16 @@ public class Application {
         PortUtil.checkPort(6379,"Redis 服务端",true);
         PortUtil.checkPort(9300,"ElasticSearch 服务端",true);
     }
+
     public static void main(String[] args) {
+
         SpringApplication.run(Application.class, args);
     }
+
+//    @Bean
+//    MultipartConfigElement multipartConfigElement() {
+//        MultipartConfigFactory factory = new MultipartConfigFactory();
+//        factory.setLocation("/data/apps/temp");
+//        return factory.createMultipartConfig();
+//    }
 }
